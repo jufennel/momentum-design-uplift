@@ -20,7 +20,6 @@
       "dom",
       "dom.iterable"
     ],
-    "baseUrl": "../addon-kit-main",
     "rootDir": "./src"
   },
   "include": [

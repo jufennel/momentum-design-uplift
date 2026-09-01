@@ -90,6 +90,7 @@ There are 16 theme usage groups. Each entry below gives the group's intent,
 its main variants, and representative light/dark values (shown as the primitive
 they reference). The complete, authoritative token set per mode lives in
 `packages/assets/tokens/src/theme/stable/` (`light.json`, `dark.json`,
+`fluid/fluid_light.json`, `fluid/fluid_dark.json`,
 `highcontrast/hc_light.json`, `highcontrast/hc_dark.json`).
 
 ### text — `color.theme.text.*`

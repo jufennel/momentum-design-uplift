@@ -8,14 +8,14 @@ import './themeprovider.stories.utils';
 import { classArgType, styleArgType } from '../../../config/storybook/commonArgTypes';
 import { disableControls } from '../../../config/storybook/utils';
 
-const THEMES = ['mds-theme-stable-darkWebex', 'mds-theme-stable-lightWebex'];
+const THEMES = ['mds-theme-stable-darkWebex', 'mds-theme-stable-lightWebex', 'mds-theme-stable-fluidDarkWebex', 'mds-theme-stable-fluidLightWebex'];
 
 const render = (args: Args) => html`
   <mdc-themeprovider class="${classMap({ [args.class]: true })}" style="${args.style}" themeclass="${args.themeclass}">
     <div class="${classMap({ themeWrapper: true })}">
       <mdc-subcomponent></mdc-subcomponent>
-      <p>Color examples:</p>
-      <div style="height: 250px; overflow: scroll">
+      <p>Color examples test:</p>
+      <div>
         <div class="colorBox" style="background: var(--mds-color-theme-text-primary-normal);"></div>
         <div class="colorBox" style="background: var(--mds-color-theme-text-error-normal);"></div>
         <div class="colorBox" style="background: var(--mds-color-theme-text-warning-normal);"></div>

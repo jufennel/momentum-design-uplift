@@ -7,6 +7,8 @@
     "core/effect",
     "theme/stable/dark",
     "theme/stable/light",
+    "theme/stable/fluid/fluid_dark",
+    "theme/stable/fluid/fluid_light",
     "theme/stable/highcontrast/hc_dark",
     "theme/stable/highcontrast/hc_light",
     "aaos/night",

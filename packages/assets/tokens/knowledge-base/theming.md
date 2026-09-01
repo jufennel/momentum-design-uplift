@@ -52,12 +52,17 @@ Each mode is a source file under `packages/assets/tokens/src/`:
 | --- | --- |
 | Stable light | `theme/stable/light.json` |
 | Stable dark | `theme/stable/dark.json` |
+| Fluid light | `theme/stable/fluid/fluid_light.json` |
+| Fluid dark | `theme/stable/fluid/fluid_dark.json` |
 | High-contrast light | `theme/stable/highcontrast/hc_light.json` |
 | High-contrast dark | `theme/stable/highcontrast/hc_dark.json` |
 | AAOS day (automotive) | `aaos/day.json` |
 | AAOS night (automotive) | `aaos/night.json` |
 
-Stable light/dark are the primary modes. High-contrast maps onto the
+Stable light/dark are the primary modes. Fluid is a glass-style mode that
+re-maps canvas, grouped-surface, primary-button, and outline tokens onto the
+existing `color.theme.background.glass.*` / `button.glass.*` / `outline.glass.*`
+primitives. High-contrast maps onto the
 `color.highcontrast.*` system-color palette for accessibility.
 
 **AAOS (automotive) is a distinct token namespace, not a re-tint of the stable
@@ -87,6 +92,7 @@ carries the resolved `--mds-color-theme-*` custom properties — for example:
 
 - `.mds-theme-stable-lightWebex`
 - `.mds-theme-stable-darkWebex`
+- `.mds-theme-stable-fluidLightWebex` / `.mds-theme-stable-fluidDarkWebex`
 - `.mds-theme-stable-hcLightWebex` / `.mds-theme-stable-hcDarkWebex`
 - `.mds-theme-stable-darkIndigoWebex` (accent overlay)
 - `.mds-theme-aaos-day` / `.mds-theme-aaos-night`
