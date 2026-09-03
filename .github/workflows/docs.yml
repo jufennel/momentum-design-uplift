@@ -19,7 +19,6 @@ env:
 jobs:
   initialize:
     name: Initialize
-    if: github.repository == 'momentum-design/momentum-design'
     runs-on: ubuntu-latest
 
     steps:
