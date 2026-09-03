@@ -80,8 +80,8 @@
       Motion 🚀 Momentum
     </title>
     
-  <link rel="stylesheet" href="/assets/_tokenType_.de99db85.css" />
-<link rel="stylesheet" href="/assets/_page_.cd3a7f16.css" /><script type="module" src="/hoisted.b4f5b282.js"></script></head>
+  <link rel="stylesheet" href="/assets/_tokenType_.a2ae5062.css" />
+<link rel="stylesheet" href="/assets/_page_.cd3a7f16.css" /><script type="module" src="/hoisted.e0a4ac37.js"></script></head>
   <body class="mds-typography mds-elevation astro-USQJVM57">
     <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).load=a=>{(async()=>await(await a())())()},window.dispatchEvent(new Event("astro:load"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><script>(self.Astro=self.Astro||{}).idle=t=>{const e=async()=>{await(await t())()};"requestIdleCallback"in window?window.requestIdleCallback(e):setTimeout(e,200)},window.dispatchEvent(new Event("astro:idle"));</script><mdc-themeprovider id="mds-theme-provider" themeclass="mds-theme-stable-darkWebex" class="astro-USQJVM57">
       <mdc-iconprovider icon-set="momentum-icons" class="astro-USQJVM57">
@@ -368,7 +368,10 @@ transitions <code>background-color</code>; <code>checkboxDefault</code> transiti
 <code>--mds-animation-*</code> custom property (e.g. <code>buttonLoadingSpinPulse</code> =
 <code>buttonLoadingSpin</code> + <code>buttonLoadingPulse</code>).</mdc-text></li>
 </ul>
-<mdc-text tagname="p" type="body-large-regular">Animations are currently scoped to <code>button</code> and <code>checkbox</code>. Because each one
+<mdc-text tagname="p" type="body-large-regular">Animations currently cover <code>button</code>, <code>checkbox</code>, overlay enter/exit
+(<code>fadeIn</code> / <code>fadeOut</code>, <code>slideEntrance</code> / <code>slideExit</code>), panel height
+(<code>expand</code> / <code>collapse</code> on <code>grid-template-rows</code>), and reusable text/scale
+primitives (<code>textChange</code>, <code>growShrink</code>). Because each one
 references core tokens rather than raw values, retuning a duration or easing at
 the core layer updates every animation that uses it.</mdc-text>
 <mdc-text tagname="p" type="body-large-regular">Authoritative source: <code>packages/assets/tokens/src/motion/animation.json</code>.</mdc-text>
@@ -384,7 +387,12 @@ moments that deserve deliberate attention.</mdc-text></li>
 <li><mdc-text tagname="span" type="body-large-regular"><strong>Easing by direction</strong> — <code>entrance</code> for appearing, <code>exit</code> for disappearing,
 <code>standard</code> as the default, <code>linear</code> only for continuous loops.</mdc-text></li>
 <li><mdc-text tagname="span" type="body-large-regular"><strong>Respect reduced motion</strong> — honor <code>prefers-reduced-motion</code>; reduce or remove
-non-essential animation for users who request it.</mdc-text></li>
+non-essential animation for users who request it. Shipped CSS under
+<code>.mds-motion</code> and <code>.mds-animation</code> includes <code>@media (prefers-reduced-motion: reduce)</code>
+overrides (durations/delays/staggers to <code>0ms</code>; transition/animation shorthands to
+<code>none</code>). Applications can also wrap content in
+<mdc-link href="https://github.com/momentum-design/momentum-design/blob/main/packages/components/src/components/motionprovider/knowledge-base/motionprovider.component.md" inline=""><code>mdc-motionprovider</code></mdc-link>
+to toggle token scope with <code>motion="full" | "reduce" | "system"</code>.</mdc-text></li>
 </ul>
 <blockquote>
 <mdc-text tagname="p" type="body-large-regular"><strong>Note:</strong> these tokens are published under <code>.mds-motion</code> and <code>.mds-animation</code>
