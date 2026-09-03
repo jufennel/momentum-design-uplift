@@ -123,7 +123,9 @@ reference a duration or easing token, and comes in one of four shapes:
   `--mds-animation-*` custom property (e.g. `buttonLoadingSpinPulse` =
   `buttonLoadingSpin` + `buttonLoadingPulse`).
 
-Animations are currently scoped to `button`, `checkbox`, and reusable text/scale
+Animations currently cover `button`, `checkbox`, overlay enter/exit
+(`fadeIn` / `fadeOut`, `slideEntrance` / `slideExit`), panel height
+(`expand` / `collapse` on `grid-template-rows`), and reusable text/scale
 primitives (`textChange`, `growShrink`). Because each one
 references core tokens rather than raw values, retuning a duration or easing at
 the core layer updates every animation that uses it.
@@ -142,7 +144,12 @@ Authoritative source: `packages/assets/tokens/src/motion/animation.json`.
 - **Easing by direction** — `entrance` for appearing, `exit` for disappearing,
   `standard` as the default, `linear` only for continuous loops.
 - **Respect reduced motion** — honor `prefers-reduced-motion`; reduce or remove
-  non-essential animation for users who request it.
+  non-essential animation for users who request it. Shipped CSS under
+  `.mds-motion` and `.mds-animation` includes `@media (prefers-reduced-motion: reduce)`
+  overrides (durations/delays/staggers to `0ms`; transition/animation shorthands to
+  `none`). Applications can also wrap content in
+  [`mdc-motionprovider`](../../../components/src/components/motionprovider/knowledge-base/motionprovider.component.md)
+  to toggle token scope with `motion="full" | "reduce" | "system"`.
 
 > **Note:** these tokens are published under `.mds-motion` and `.mds-animation`
 > and are consumable directly by name (e.g. `var(--mds-animation-button-loading-spin)`),

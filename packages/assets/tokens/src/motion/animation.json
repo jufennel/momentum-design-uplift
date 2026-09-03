@@ -160,15 +160,46 @@
       "easing": "{motion.easing.standard}",
       "delay": "{motion.delay.none}"
     },
-    "fadeInOut": {
-      "description": "Dialog entrance — fades in when appearing",
+    "fadeIn": {
+      "description": "Overlay fade entrance — opacity and display when appearing",
       "type": "transition",
       "properties": [
         "opacity",
         "display"
       ],
-      "duration": "{motion.duration.relaxed}",
+      "duration": "{motion.duration.fast}",
       "easing": "{motion.easing.standard}",
+      "delay": "{motion.delay.none}"
+    },
+    "fadeOut": {
+      "description": "Overlay fade exit — opacity and display when disappearing",
+      "type": "transition",
+      "properties": [
+        "opacity",
+        "display"
+      ],
+      "duration": "{motion.duration.instant}",
+      "easing": "{motion.easing.standard}",
+      "delay": "{motion.delay.none}"
+    },
+    "expand": {
+      "description": "Panel expand — grid-template-rows from collapsed to open",
+      "type": "transition",
+      "properties": [
+        "grid-template-rows"
+      ],
+      "duration": "{motion.duration.normal}",
+      "easing": "{motion.easing.entrance}",
+      "delay": "{motion.delay.none}"
+    },
+    "collapse": {
+      "description": "Panel collapse — grid-template-rows from open to collapsed",
+      "type": "transition",
+      "properties": [
+        "grid-template-rows"
+      ],
+      "duration": "{motion.duration.fast}",
+      "easing": "{motion.easing.exit}",
       "delay": "{motion.delay.none}"
     },
     "slideEntrance": {

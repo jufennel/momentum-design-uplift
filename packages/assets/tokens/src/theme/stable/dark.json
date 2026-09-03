@@ -1076,6 +1076,80 @@
               "value": "linear-gradient(180deg, {color.gradient.default.dark.secondary.0} 0%, {color.gradient.default.dark.secondary.1} 100%)",
               "description": "linear-gradient(180deg, {color.gradient.default.dark.secondary.0} 0%, {color.gradient.default.dark.secondary.1} 100%)"
             }
+          },
+          "uplift": {
+            "base": {
+              "parent": "theme/stable/dark",
+              "type": "color",
+              "value": "{color.core.black-alpha.100}",
+              "description": "Uplift animated background canvas clear color"
+            },
+            "ambient": {
+              "0": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.decorative.cobalt.30}",
+                "description": "Uplift animated background — ambient layer stop 0"
+              },
+              "1": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.blue.40}",
+                "description": "Uplift animated background — ambient layer stop 1"
+              },
+              "2": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.blue.90}",
+                "description": "Uplift animated background — ambient layer stop 2"
+              },
+              "3": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.black-alpha.100}",
+                "description": "Uplift animated background — ambient layer stop 3"
+              }
+            },
+            "midtone": {
+              "0": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.blue.60}",
+                "description": "Uplift animated background — midtone layer stop 0"
+              },
+              "1": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.gray.55}",
+                "description": "Uplift animated background — midtone layer stop 1 (RGB; 50% alpha applied by mdc-animatedbackground)"
+              },
+              "2": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.decorative.lime.50}",
+                "description": "Uplift animated background — midtone layer stop 2"
+              }
+            },
+            "expressive": {
+              "0": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.decorative.lime.30}",
+                "description": "Uplift animated background — expressive layer stop 0"
+              },
+              "1": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.orange.50}",
+                "description": "Uplift animated background — expressive layer stop 1"
+              },
+              "2": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.decorative.purple.80}",
+                "description": "Uplift animated background — expressive layer stop 2"
+              }
+            }
           }
         },
         "reaction": {
@@ -2309,6 +2383,128 @@
               "type": "color",
               "value": "{color.core.blue.40}",
               "description": ""
+            }
+          }
+        },
+        "caption": {
+          "background": {
+            "dark": {
+              "green": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.green.90}",
+                "description": "HEX: #0E2B20\nUsed for closed-caption component"
+              },
+              "blue": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.blue.90}",
+                "description": "HEX: #0A274A\nUsed for closed-caption component"
+              },
+              "purple": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.decorative.purple.90}",
+                "description": "HEX: #3B1840\nUsed for closed-caption component"
+              },
+              "yellow": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.yellow.90}",
+                "description": "HEX: #36220C\nUsed for closed-caption component"
+              }
+            },
+            "light": {
+              "green": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.green.10}",
+                "description": "HEX: #CEF5EB\nUsed for closed-caption component"
+              },
+              "blue": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.blue.10}",
+                "description": "HEX: #DBF0FF\nUsed for closed-caption component"
+              },
+              "purple": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.decorative.purple.10}",
+                "description": "HEX: #FCF2FC\nUsed for closed-caption component"
+              },
+              "yellow": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.yellow.10}",
+                "description": "HEX: #FFEBC2\nUsed for closed-caption component"
+              }
+            }
+          },
+          "text": {
+            "dark": {
+              "normal": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.black-alpha.95}",
+                "description": "HEX: #000000 95%\nUsed for closed-caption component"
+              },
+              "green": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.green.40}",
+                "description": "HEX: #3CC29A\nUsed for closed-caption component"
+              },
+              "blue": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.blue.40}",
+                "description": "HEX: #64B4FA\nUsed for closed-caption component"
+              },
+              "purple": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.decorative.purple.40}",
+                "description": "HEX: #F294F1\nUsed for closed-caption component"
+              },
+              "yellow": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.yellow.40}",
+                "description": "HEX: #F2990A\nUsed for closed-caption component"
+              }
+            },
+            "light": {
+              "normal": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.white-alpha.95}",
+                "description": "HEX: #FFFFFF 95%\nUsed for closed-caption component"
+              },
+              "green": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.green.70}",
+                "description": "HEX: #185E46\nUsed for closed-caption component"
+              },
+              "blue": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.blue.70}",
+                "description": "HEX: #0353A8\nUsed for closed-caption component"
+              },
+              "purple": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.decorative.purple.70}",
+                "description": "HEX: #932099\nUsed for closed-caption component"
+              },
+              "yellow": {
+                "parent": "theme/stable/dark",
+                "type": "color",
+                "value": "{color.core.yellow.70}",
+                "description": "HEX: #7D4705\nUsed for closed-caption component"
+              }
             }
           }
         }

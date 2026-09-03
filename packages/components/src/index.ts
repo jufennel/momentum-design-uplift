@@ -5,6 +5,7 @@ import AccordionGroup from './components/accordiongroup';
 import AccordionButton from './components/accordionbutton';
 import AlertChip from './components/alertchip';
 import Animation from './components/animation';
+import AnimatedBackground from './components/animatedbackground';
 import AnnouncementDialog from './components/announcementdialog';
 import Appheader from './components/appheader';
 import Avatar from './components/avatar';
@@ -42,6 +43,7 @@ import List from './components/list';
 import Listheader from './components/listheader';
 import ListItem from './components/listitem';
 import Marker from './components/marker';
+import MotionProvider from './components/motionprovider';
 import MenuBar from './components/menubar';
 import MenuItem from './components/menuitem';
 import MenuItemCheckbox from './components/menuitemcheckbox';
@@ -154,6 +156,7 @@ export {
   AccordionGroup,
   AlertChip,
   Animation,
+  AnimatedBackground,
   AnnouncementDialog,
   Appheader,
   Avatar,
@@ -191,6 +194,7 @@ export {
   Listheader,
   ListItem,
   Marker,
+  MotionProvider,
   MenuBar,
   MenuItem,
   MenuItemCheckbox,
