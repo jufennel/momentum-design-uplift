@@ -14,4 +14,8 @@ interface BadgeEventHandlers {
   onHiddenEvent: BadgeHiddenEvent;
 }
 
-export type { BadgeEventHandlers, BadgeHiddenEvent, BadgeType, IconVariant, MotionPhase, PulseStep };
+interface Events {
+  onHiddenEvent: BadgeHiddenEvent;
+}
+
+export type { BadgeEventHandlers, BadgeHiddenEvent, BadgeType, Events, IconVariant, MotionPhase, PulseStep };
