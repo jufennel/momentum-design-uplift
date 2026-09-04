@@ -123,12 +123,19 @@ reference a duration or easing token, and comes in one of four shapes:
   `--mds-animation-*` custom property (e.g. `buttonLoadingSpinPulse` =
   `buttonLoadingSpin` + `buttonLoadingPulse`).
 
-Animations currently cover `button`, `checkbox`, overlay enter/exit
+Animations currently cover `button`, `checkbox`, surface enter/exit
 (`fadeIn` / `fadeOut`, `slideEntrance` / `slideExit`), panel height
 (`expand` / `collapse` on `grid-template-rows`), and reusable text/scale
 primitives (`textChange`, `growShrink`). Because each one
 references core tokens rather than raw values, retuning a duration or easing at
 the core layer updates every animation that uses it.
+
+`slideEntrance` and `slideExit` animate `transform`, `opacity`, and optionally
+`display`. They are commonly used for overlays and popovers, but also suit
+in-flow surfaces such as banners when the consuming component sets slide
+direction (for example `translateY`) and keeps `display` in a single in-flow
+value. Pair slide on the host with `expand` / `collapse` when layout height
+should animate in document flow.
 
 Authoritative source: `packages/assets/tokens/src/motion/animation.json`.
 
