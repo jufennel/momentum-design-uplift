@@ -10,12 +10,12 @@ import { action } from 'storybook/actions';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 import { classArgType, styleArgType } from '../../../config/storybook/commonArgTypes';
-
 import {
   TYPE as BADGE_TYPE,
   ICON_VARIANT as BADGE_ICON_VARIANT,
   DEFAULTS as BADGE_DEFAULTS,
 } from '../badge/badge.constants';
+
 import { BUTTON_COLORS, PILL_BUTTON_SIZES, BUTTON_VARIANTS, ICON_BUTTON_SIZES, BUTTON_TYPE } from './button.constants';
 
 const BADGE_MAX_COUNTER_LIST = [9, 99, 999];

@@ -475,9 +475,7 @@ test('mdc-banner', async ({ componentsPage }) => {
       await expect(banner).toHaveAttribute('data-motion-phase', MOTION_PHASE.VISIBLE, { timeout: 2000 });
 
       const hiddenEvent = await componentsPage.waitForEvent(banner, 'hidden');
-      await banner.evaluate((element) => {
-        (element as HTMLElement & { open: boolean }).open = false;
-      });
+      await componentsPage.removeAttribute(banner, 'open');
 
       await expect(banner).toHaveAttribute('data-motion-phase', MOTION_PHASE.EXITING);
       await expect(hiddenEvent).toEventEmitted();
@@ -498,9 +496,7 @@ test('mdc-banner', async ({ componentsPage }) => {
       });
 
       const hiddenEvent = await componentsPage.waitForEvent(banner, 'hidden');
-      await banner.evaluate((element) => {
-        (element as HTMLElement & { open: boolean }).open = false;
-      });
+      await componentsPage.removeAttribute(banner, 'open');
 
       await expect(hiddenEvent).toEventEmitted();
 
@@ -521,9 +517,7 @@ test('mdc-banner', async ({ componentsPage }) => {
       await expect(banner).toHaveAttribute('data-motion-phase', MOTION_PHASE.VISIBLE, { timeout: 500 });
 
       const hiddenEvent = await componentsPage.waitForEvent(banner, 'hidden');
-      await banner.evaluate((element) => {
-        (element as HTMLElement & { open: boolean }).open = false;
-      });
+      await componentsPage.removeAttribute(banner, 'open');
 
       await expect(hiddenEvent).toEventEmitted();
 
@@ -548,9 +542,7 @@ test('mdc-banner', async ({ componentsPage }) => {
       await expect(banner).toHaveAttribute('data-motion-phase', MOTION_PHASE.VISIBLE, { timeout: 500 });
 
       const hiddenEvent = await componentsPage.waitForEvent(banner, 'hidden');
-      await banner.evaluate((element) => {
-        (element as HTMLElement & { open: boolean }).open = false;
-      });
+      await componentsPage.removeAttribute(banner, 'open');
 
       await expect(hiddenEvent).toEventEmitted();
 

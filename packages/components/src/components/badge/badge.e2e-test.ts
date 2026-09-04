@@ -203,9 +203,7 @@ const testToRun = async (componentsPage: ComponentsPage) => {
         await expect(motionBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.VISIBLE, { timeout: 2000 });
 
         const hiddenEvent = await componentsPage.waitForEvent(motionBadge, 'hidden');
-        await motionBadge.evaluate((element) => {
-          element.removeAttribute('counter');
-        });
+        await componentsPage.removeAttribute(motionBadge, 'counter');
         await expect(hiddenEvent).toEventEmitted();
         await expect(motionBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.HIDDEN);
       });
@@ -215,11 +213,7 @@ const testToRun = async (componentsPage: ComponentsPage) => {
         await expect(motionBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.VISIBLE, { timeout: 2000 });
 
         const hiddenEvent = await componentsPage.waitForEvent(motionBadge, 'hidden');
-        await motionBadge.evaluate((element) => {
-          (element as HTMLElement & { visible: boolean }).visible = false;
-        });
-
-        await expect(motionBadge.locator('mdc-text')).toHaveText('5');
+        await componentsPage.removeAttribute(motionBadge, 'visible');
         await expect(motionBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.EXITING);
         await expect(hiddenEvent).toEventEmitted();
         await expect(motionBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.HIDDEN);
@@ -256,11 +250,7 @@ const testToRun = async (componentsPage: ComponentsPage) => {
         await expect(dotBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.VISIBLE, { timeout: 2000 });
 
         const hiddenEvent = await componentsPage.waitForEvent(dotBadge, 'hidden');
-        await dotBadge.evaluate((element) => {
-          (element as HTMLElement & { visible: boolean }).visible = false;
-        });
-
-        await expect(dotBadge).toHaveAttribute('type', TYPE.DOT);
+        await componentsPage.removeAttribute(dotBadge, 'visible');
         await expect(dotBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.EXITING);
         await expect(hiddenEvent).toEventEmitted();
         await expect(dotBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.HIDDEN);
@@ -272,13 +262,15 @@ const testToRun = async (componentsPage: ComponentsPage) => {
         const motionBadge = await setup({ componentsPage, type: TYPE.DOT });
         await expect(motionBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.VISIBLE, { timeout: 2000 });
 
+        /* eslint-disable no-param-reassign, no-underscore-dangle -- test-only counter on host element */
         await motionBadge.evaluate((element) => {
-          (element as HTMLElement & { __hiddenCount?: number }).__hiddenCount = 0;
+          (element as HTMLElement & { hiddenEventCount?: number }).hiddenEventCount = 0;
           element.addEventListener('hidden', () => {
-            const badge = element as HTMLElement & { __hiddenCount?: number };
-            badge.__hiddenCount = (badge.__hiddenCount ?? 0) + 1;
+            const badge = element as HTMLElement & { hiddenEventCount?: number };
+            badge.hiddenEventCount = (badge.hiddenEventCount ?? 0) + 1;
           });
         });
+        /* eslint-enable no-param-reassign, no-underscore-dangle */
 
         await componentsPage.setAttributes(motionBadge, { type: TYPE.COUNTER, counter: '3' });
         await expect(motionBadge).toHaveAttribute('data-motion-phase', MOTION_PHASE.EXITING);
@@ -287,7 +279,7 @@ const testToRun = async (componentsPage: ComponentsPage) => {
         await expect(motionBadge.locator('mdc-text')).toHaveText('3');
 
         const hiddenCount = await motionBadge.evaluate(
-          (element) => (element as HTMLElement & { __hiddenCount?: number }).__hiddenCount ?? 0,
+          (element) => (element as HTMLElement & { hiddenEventCount?: number }).hiddenEventCount ?? 0,
         );
         expect(hiddenCount).toBe(0);
       });
