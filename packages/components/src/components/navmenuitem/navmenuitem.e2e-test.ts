@@ -656,6 +656,34 @@ test.describe('NavMenuItem Feature Scenarios', () => {
         const maxCounter = await badge.getAttribute('max-counter');
         expect(maxCounter).toBe('99');
       });
+
+      await test.step('keeps badge mounted while exit animation runs', async () => {
+        await setup({
+          componentsPage,
+          label: primaryLabel,
+          'icon-name': iconName,
+          'nav-id': navId,
+          'show-label': false,
+          'badge-type': 'counter',
+          counter: 3,
+        });
+
+        const navItem = componentsPage.page.locator('mdc-navmenuitem');
+        const badge = componentsPage.page.locator('mdc-badge');
+        await badge.waitFor();
+
+        const hiddenEvent = await componentsPage.waitForEvent(badge, 'hidden');
+
+        await navItem.evaluate((element) => {
+          element.removeAttribute('badge-type');
+        });
+
+        await expect(badge).not.toHaveAttribute('visible');
+        await expect(badge).toHaveAttribute('data-motion-phase', 'exiting');
+
+        await expect(hiddenEvent).toEventEmitted();
+        await expect(navItem.locator('mdc-badge')).toHaveCount(0);
+      });
     });
   });
 });

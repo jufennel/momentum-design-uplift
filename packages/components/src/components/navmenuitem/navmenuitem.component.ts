@@ -214,6 +214,12 @@ class NavMenuItem extends MenuItem {
   @state()
   private dropdownOpen: boolean = false;
 
+  @state()
+  private badgeExitPending = false;
+
+  @state()
+  private cachedBadgeType?: BadgeType;
+
   /**
    * @internal
    */
@@ -242,6 +248,30 @@ class NavMenuItem extends MenuItem {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeTooltip();
+  }
+
+  override willUpdate(changedProperties: PropertyValues): void {
+    super.willUpdate(changedProperties);
+
+    if (changedProperties.has('badgeType')) {
+      const isValidBadgeType = Object.values(ALLOWED_BADGE_TYPES).includes(this.badgeType as BadgeType);
+
+      if (isValidBadgeType) {
+        this.cachedBadgeType = this.badgeType;
+        this.badgeExitPending = false;
+      } else if (this.cachedBadgeType) {
+        this.badgeExitPending = true;
+      }
+    }
+  }
+
+  private handleBadgeHidden = (): void => {
+    this.badgeExitPending = false;
+    this.cachedBadgeType = undefined;
+  };
+
+  private isValidBadgeType(): boolean {
+    return Object.values(ALLOWED_BADGE_TYPES).includes(this.badgeType as BadgeType);
   }
 
   protected override firstUpdated(_changedProperties: PropertyValues): void {
@@ -480,18 +510,24 @@ class NavMenuItem extends MenuItem {
   }
 
   private renderBadge(showLabel: boolean | undefined): TemplateResult | typeof nothing {
-    const isValidBadgeType = Object.values(ALLOWED_BADGE_TYPES).includes(this.badgeType as BadgeType);
-    if (!isValidBadgeType) {
+    const isValidBadgeType = this.isValidBadgeType();
+    const shouldRenderBadge = isValidBadgeType || this.badgeExitPending;
+
+    if (!shouldRenderBadge) {
       return nothing;
     }
+
+    const badgeType = isValidBadgeType ? this.badgeType : this.cachedBadgeType;
 
     return html`
       <mdc-badge
         part="${showLabel ? '' : 'badge'}"
-        type="${ifDefined(this.badgeType)}"
+        type="${ifDefined(badgeType)}"
         counter="${ifDefined(this.counter)}"
         max-counter="${this.maxCounter}"
+        ?visible="${isValidBadgeType}"
         aria-hidden="true"
+        @hidden=${this.handleBadgeHidden}
       >
       </mdc-badge>
     `;
