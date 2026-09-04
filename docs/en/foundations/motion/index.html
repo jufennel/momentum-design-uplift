@@ -368,12 +368,18 @@ transitions <code>background-color</code>; <code>checkboxDefault</code> transiti
 <code>--mds-animation-*</code> custom property (e.g. <code>buttonLoadingSpinPulse</code> =
 <code>buttonLoadingSpin</code> + <code>buttonLoadingPulse</code>).</mdc-text></li>
 </ul>
-<mdc-text tagname="p" type="body-large-regular">Animations currently cover <code>button</code>, <code>checkbox</code>, overlay enter/exit
+<mdc-text tagname="p" type="body-large-regular">Animations currently cover <code>button</code>, <code>checkbox</code>, surface enter/exit
 (<code>fadeIn</code> / <code>fadeOut</code>, <code>slideEntrance</code> / <code>slideExit</code>), panel height
 (<code>expand</code> / <code>collapse</code> on <code>grid-template-rows</code>), and reusable text/scale
 primitives (<code>textChange</code>, <code>growShrink</code>). Because each one
 references core tokens rather than raw values, retuning a duration or easing at
 the core layer updates every animation that uses it.</mdc-text>
+<mdc-text tagname="p" type="body-large-regular"><code>slideEntrance</code> and <code>slideExit</code> animate <code>transform</code>, <code>opacity</code>, and optionally
+<code>display</code>. They are commonly used for overlays and popovers, but also suit
+in-flow surfaces such as banners when the consuming component sets slide
+direction (for example <code>translateY</code>) and keeps <code>display</code> in a single in-flow
+value. Pair slide on the host with <code>expand</code> / <code>collapse</code> when layout height
+should animate in document flow.</mdc-text>
 <mdc-text tagname="p" type="body-large-regular">Authoritative source: <code>packages/assets/tokens/src/motion/animation.json</code>.</mdc-text>
 <mdc-text id="usage" tagname="h2" type="heading-midsize-bold"><a href="#usage" class="kb-heading-anchor">Usage</a></mdc-text>
 <ul>
