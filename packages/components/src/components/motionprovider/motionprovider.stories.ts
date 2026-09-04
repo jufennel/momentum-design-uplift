@@ -13,12 +13,15 @@ import '../menupopover';
 import '../menuitem';
 import '../divider';
 import '../dialog';
+import '../banner';
 import { hideAllControls } from '../../../config/storybook/utils';
 import { ROLE } from '../../utils/roles';
 
 const MENU_TRIGGER_ID = 'motion-demo-menu-trigger';
 const DIALOG_TRIGGER_ID = 'motion-demo-dialog-trigger';
 const DIALOG_ID = 'motion-demo-dialog';
+const BANNER_SHOW_ID = 'motion-demo-banner-show';
+const BANNER_SLOT_ID = 'motion-demo-banner-slot';
 
 const stripBodyMotionClasses: Decorator = Story => {
   document.querySelector('body.sb-show-main')?.classList.remove('mds-motion', 'mds-animation');
@@ -96,7 +99,7 @@ const render: StoryFn = (args, { updateArgs }) => {
           <section class="motionDemoSection">
             <h3 class="motionDemoSectionTitle">Menu popover</h3>
             <p class="motionDemoSectionHint">Open the menu to see slide entrance and exit transitions.</p>
-            <mdc-button id="${MENU_TRIGGER_ID}">Open menu</mdc-button>
+            <mdc-button id="${MENU_TRIGGER_ID}" variant="secondary">Open menu</mdc-button>
             <mdc-menupopover triggerID="${MENU_TRIGGER_ID}" placement="bottom-start" aria-label="Demo menu">
               <mdc-menuitem label="New"></mdc-menuitem>
               <mdc-menuitem label="Open"></mdc-menuitem>
@@ -108,7 +111,7 @@ const render: StoryFn = (args, { updateArgs }) => {
           <section class="motionDemoSection">
             <h3 class="motionDemoSectionTitle">Dialog</h3>
             <p class="motionDemoSectionHint">Open the dialog to see backdrop and content fade transitions.</p>
-            <mdc-button id="${DIALOG_TRIGGER_ID}" @click=${openDialog}>Open dialog</mdc-button>
+            <mdc-button id="${DIALOG_TRIGGER_ID}" @click=${openDialog} variant="secondary">Open dialog</mdc-button>
             <mdc-dialog
               id="${DIALOG_ID}"
               triggerID="${DIALOG_TRIGGER_ID}"
@@ -123,9 +126,55 @@ const render: StoryFn = (args, { updateArgs }) => {
               <mdc-button slot="footer-button-primary" @click=${closeDialog}>Done</mdc-button>
             </mdc-dialog>
           </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Banner</h3>
+            <p class="motionDemoSectionHint">
+              Show and dismiss the banner to see expand/collapse and fade transitions. Turn motion off to compare instant state changes.
+            </p>
+            <mdc-button id="${BANNER_SHOW_ID}" variant="secondary">Show banner</mdc-button>
+            <div id="${BANNER_SLOT_ID}" class="motionDemoBannerSlot"></div>
+          </section>
         </div>
       </mdc-motionprovider>
     </div>
+    <script>
+      const bannerSlot = document.getElementById('${BANNER_SLOT_ID}');
+      const showBannerButton = document.getElementById('${BANNER_SHOW_ID}');
+
+      const mountBanner = () => {
+        bannerSlot.replaceChildren();
+
+        const banner = document.createElement('mdc-banner');
+        banner.setAttribute('variant', 'warning');
+        banner.setAttribute('label', 'Connection unstable');
+        banner.setAttribute('secondary-label', 'We will retry automatically in the background.');
+
+        const actions = document.createElement('div');
+        actions.setAttribute('slot', 'trailing-actions');
+
+        const dismissButton = document.createElement('mdc-button');
+        dismissButton.setAttribute('variant', 'tertiary');
+        dismissButton.setAttribute('prefix-icon', 'cancel-bold');
+        dismissButton.setAttribute('size', '20');
+        dismissButton.setAttribute('aria-label', 'Dismiss banner');
+
+        dismissButton.addEventListener('click', () => {
+          banner.open = false;
+        });
+
+        banner.addEventListener('hidden', () => {
+          banner.remove();
+        });
+
+        actions.appendChild(dismissButton);
+        banner.appendChild(actions);
+        bannerSlot.appendChild(banner);
+      };
+
+      showBannerButton?.addEventListener('click', mountBanner);
+      mountBanner();
+    </script>
   `;
 };
 

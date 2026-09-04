@@ -188,7 +188,7 @@
       "properties": [
         "grid-template-rows"
       ],
-      "duration": "{motion.duration.normal}",
+      "duration": "{motion.duration.fast}",
       "easing": "{motion.easing.entrance}",
       "delay": "{motion.delay.none}"
     },
@@ -203,7 +203,7 @@
       "delay": "{motion.delay.none}"
     },
     "slideEntrance": {
-      "description": "Overlay slide entrance — transform, opacity, and display; direction is set by the consuming component",
+      "description": "Slide entrance — transform, opacity, and display; direction is set by the consuming component",
       "type": "transition",
       "properties": [
         "transform",
@@ -215,14 +215,14 @@
       "delay": "{motion.delay.none}"
     },
     "slideExit": {
-      "description": "Overlay slide exit — transform, opacity, and display; direction is set by the consuming component",
+      "description": "Slide exit — transform, opacity, and display; direction is set by the consuming component",
       "type": "transition",
       "properties": [
         "transform",
         "opacity",
         "display"
       ],
-      "duration": "{motion.duration.instant}",
+      "duration": "{motion.duration.fast}",
       "easing": "{motion.easing.exit}",
       "delay": "{motion.delay.none}"
     }

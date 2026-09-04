@@ -19,7 +19,7 @@
 
 .motionDemoSectionTitle {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: var(--mds-color-theme-text-primary-normal);
 }
@@ -34,5 +34,11 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  gap: 0.75rem;
+}
+
+.motionDemoBannerSlot {
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
 }
