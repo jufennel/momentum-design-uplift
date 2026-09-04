@@ -7,7 +7,7 @@ const styles = css`
     display: none;
     opacity: 0;
     transform: var(--mdc-menupopover-slide-from, translateY(calc(-1 * var(--mdc-menupopover-slide-offset))));
-    transition: var(--mds-transition-slide-exit);
+    transition: var(--mds-transition-slide-exit), var(--mds-transition-fade-out);
     transition-behavior: allow-discrete;
   }
 
@@ -35,7 +35,7 @@ const styles = css`
     display: block;
     opacity: 1;
     transform: none;
-    transition: var(--mds-transition-slide-entrance);
+    transition: var(--mds-transition-slide-entrance), var(--mds-transition-fade-in);
     transition-behavior: allow-discrete;
   }
 

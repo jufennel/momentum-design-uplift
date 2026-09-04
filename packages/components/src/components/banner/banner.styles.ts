@@ -16,7 +16,7 @@ const styles = css`
     transform: translateY(calc(-1 * var(--mdc-banner-slide-offset)));
     align-self: stretch;
     width: 100%;
-    transition: var(--mds-transition-slide-exit);
+    transition: var(--mds-transition-slide-exit), var(--mds-transition-fade-out);
     transition-behavior: allow-discrete;
   }
 
@@ -27,14 +27,14 @@ const styles = css`
   }
 
   :host([data-motion-phase='entering']) {
-    transition: var(--mds-transition-slide-entrance);
+    transition: var(--mds-transition-slide-entrance), var(--mds-transition-fade-in);
     transition-behavior: allow-discrete;
   }
 
   :host([data-motion-phase='exiting']) {
     opacity: 0;
     transform: translateY(calc(-1 * var(--mdc-banner-slide-offset)));
-    transition: var(--mds-transition-slide-exit);
+    transition: var(--mds-transition-slide-exit), var(--mds-transition-fade-out);
     transition-behavior: allow-discrete;
   }
 

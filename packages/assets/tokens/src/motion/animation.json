@@ -203,26 +203,22 @@
       "delay": "{motion.delay.none}"
     },
     "slideEntrance": {
-      "description": "Slide entrance — transform, opacity, and display; direction is set by the consuming component",
+      "description": "Slide entrance — transform only; direction is set by the consuming component",
       "type": "transition",
       "properties": [
-        "transform",
-        "opacity",
-        "display"
+        "transform"
       ],
       "duration": "{motion.duration.fast}",
       "easing": "{motion.easing.entrance}",
       "delay": "{motion.delay.none}"
     },
     "slideExit": {
-      "description": "Slide exit — transform, opacity, and display; direction is set by the consuming component",
+      "description": "Slide exit — transform only; direction is set by the consuming component",
       "type": "transition",
       "properties": [
-        "transform",
-        "opacity",
-        "display"
+        "transform"
       ],
-      "duration": "{motion.duration.fast}",
+      "duration": "{motion.duration.instant}",
       "easing": "{motion.easing.exit}",
       "delay": "{motion.delay.none}"
     }
