@@ -119,6 +119,20 @@ A single roving `tabindex="0"` sits on the focused cell (all others are `-1`), s
 - Provide `locale-today-label`, `locale-prev-month-label`, and `locale-next-month-label` so the icon-only navigation and Today buttons have accessible names.
 - When the surrounding UI already conveys the calendar's purpose (e.g. "Departure date"), wrap the calendar in an element with a specific `aria-label` and let the grid's own label supply the month/year context.
 
+## Motion
+
+Token-based motion runs when `mds-animation` scope classes are present (via `mdc-motionprovider` or app-level setup).
+
+| Interaction | Token(s) | Behavior |
+| --- | --- | --- |
+| Day hover / selected / today border | `buttonBackground`, `buttonBorder` | CSS transitions on `background-color` and `border-color` |
+| Range fill | `buttonBackground`, `buttonBorder` | CSS transitions on the wrapper `::before` pseudo |
+| Month navigation | `fadeIn`, `fadeOut` | Cross-fade between outgoing and incoming month grids |
+
+Month navigation updates the header label immediately while the day grid cross-fades. The outgoing grid layer is `aria-hidden` during the transition. `data-grid-motion` on `.calendar-grid-viewport` reflects `idle` or `crossfading` for debugging and tests.
+
+With `prefers-reduced-motion: reduce`, when motion tokens are disabled, or when wrapped in `mdc-motionprovider motion="reduce"`, day, range, and month changes apply instantly with no cross-fade delay.
+
 ## Related components
 
 | Component | Relationship |

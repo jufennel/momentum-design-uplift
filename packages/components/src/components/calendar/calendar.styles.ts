@@ -49,6 +49,40 @@ const styles = css`
     transform: rotate(180deg);
   }
 
+  .calendar-grid-viewport {
+    position: relative;
+    min-height: calc(1.5rem + 6 * 1.75rem + 5 * 0.125rem);
+  }
+
+  .calendar-grid-layer {
+    width: 100%;
+  }
+
+  .calendar-grid-layer--exiting {
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+    transition: var(--mds-transition-fade-out);
+    pointer-events: none;
+  }
+
+  .calendar-grid-viewport[data-grid-motion='crossfading'] .calendar-grid-layer--exiting {
+    opacity: 0;
+  }
+
+  .calendar-grid-layer--entering {
+    opacity: 0;
+    transition: var(--mds-transition-fade-in);
+  }
+
+  .calendar-grid-viewport[data-grid-motion='crossfading'] .calendar-grid-layer--entering {
+    opacity: 1;
+  }
+
+  .calendar-grid-layer--visible {
+    opacity: 1;
+  }
+
   .calendar-weekday {
     font-size: 0.75rem;
     line-height: 1rem;
@@ -81,18 +115,29 @@ const styles = css`
     position: relative;
   }
 
-  .calendar-day-wrapper.in-range::before {
+  .calendar-day-wrapper::before {
     content: '';
     position: absolute;
     top: 0;
     bottom: 0;
     inset-inline-start: 0;
     inset-inline-end: 0;
-    background: var(--mdc-calendar-range-bg);
-    border-top: 1px solid var(--mdc-calendar-day-selected-bg);
-    border-bottom: 1px solid var(--mdc-calendar-day-selected-bg);
+    background-color: transparent;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-inline-start: 1px solid transparent;
+    border-inline-end: 1px solid transparent;
+    opacity: 0;
     z-index: 0;
     pointer-events: none;
+    transition: var(--mds-transition-button-background), var(--mds-transition-button-border);
+  }
+
+  .calendar-day-wrapper.in-range::before {
+    background-color: var(--mdc-calendar-range-bg);
+    border-top-color: var(--mdc-calendar-day-selected-bg);
+    border-bottom-color: var(--mdc-calendar-day-selected-bg);
+    opacity: 1;
   }
 
   .calendar-day-wrapper.in-range > .calendar-day {
@@ -105,7 +150,7 @@ const styles = css`
     inset-inline-start: calc(50% - 0.875rem);
     border-start-start-radius: 0.875rem;
     border-end-start-radius: 0.875rem;
-    border-inline-start: 1px solid var(--mdc-calendar-day-selected-bg);
+    border-inline-start-color: var(--mdc-calendar-day-selected-bg);
   }
 
   .calendar-day-wrapper.range-end::before,
@@ -113,7 +158,7 @@ const styles = css`
     inset-inline-end: calc(50% - 0.875rem);
     border-start-end-radius: 0.875rem;
     border-end-end-radius: 0.875rem;
-    border-inline-end: 1px solid var(--mdc-calendar-day-selected-bg);
+    border-inline-end-color: var(--mdc-calendar-day-selected-bg);
   }
 
   .calendar-day {
@@ -125,8 +170,8 @@ const styles = css`
     font-size: 0.875rem;
     line-height: 0.75rem;
     color: var(--mdc-calendar-day-text-color);
-    border: none;
-    background: transparent;
+    border: 1px solid transparent;
+    background-color: transparent;
     cursor: pointer;
     border-radius: 50%;
     padding: 0;
@@ -134,10 +179,11 @@ const styles = css`
     outline: none;
     font-family: inherit;
     box-sizing: border-box;
+    transition: var(--mds-transition-button-background), var(--mds-transition-button-border);
   }
 
   .calendar-day:hover:not(.disabled):not(.outside-month):not(.selected) {
-    background: var(--mdc-calendar-day-hover-bg);
+    background-color: var(--mdc-calendar-day-hover-bg);
   }
 
   .calendar-day:focus-visible,
@@ -145,6 +191,7 @@ const styles = css`
     outline: none;
     z-index: 1;
     box-shadow: ${focusRingBoxShadow};
+    transition: var(--mds-transition-button-background), var(--mds-transition-button-border);
   }
 
   @media (forced-colors: active) {
@@ -159,11 +206,11 @@ const styles = css`
   }
 
   .calendar-day.today {
-    border: 1px solid var(--mdc-calendar-day-today-border-color);
+    border-color: var(--mdc-calendar-day-today-border-color);
   }
 
   .calendar-day.selected {
-    background: var(--mdc-calendar-day-selected-bg);
+    background-color: var(--mdc-calendar-day-selected-bg);
     color: var(--mdc-calendar-day-selected-text-color);
     font-weight: var(--mds-font-apps-body-small-bold-font-weight);
   }
@@ -195,6 +242,26 @@ const styles = css`
 
   .calendar-today-button mdc-button {
     width: auto;
+  }
+
+  @supports (transition-behavior: allow-discrete) {
+    .calendar-grid-viewport[data-grid-motion='crossfading'] .calendar-grid-layer--exiting,
+    .calendar-grid-viewport[data-grid-motion='crossfading'] .calendar-grid-layer--entering {
+      transition-behavior: allow-discrete;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .calendar-day,
+    .calendar-day-wrapper::before {
+      transition: none;
+    }
+
+    .calendar-grid-layer--exiting,
+    .calendar-grid-layer--entering {
+      transition: none;
+      opacity: 1;
+    }
   }
 `;
 

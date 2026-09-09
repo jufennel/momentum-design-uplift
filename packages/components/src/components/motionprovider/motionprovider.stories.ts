@@ -14,6 +14,7 @@ import '../menuitem';
 import '../divider';
 import '../dialog';
 import '../banner';
+import '../calendar';
 import { hideAllControls } from '../../../config/storybook/utils';
 import { ROLE } from '../../utils/roles';
 
@@ -47,6 +48,26 @@ const render: StoryFn = (args, { updateArgs }) => {
       <mdc-motionprovider motion="${motionMode}">
         <div class="motionDemoSections">
           <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Accordion</h3>
+            <p class="motionDemoSectionHint">Expand and collapse to see fade and height transitions.</p>
+            <div role="${ROLE.MAIN}">
+              <mdc-accordionbutton header-text="Accordion panel" prefix-icon="info-circle-bold">
+                <h3>This is a heading for this accordion component.</h3>
+                <p>Token-based expand and collapse motion runs when this panel opens and closes. This is a paragraph for this accordion component.</p>
+              </mdc-accordionbutton>
+            </div>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Banner</h3>
+            <p class="motionDemoSectionHint">
+              Show and dismiss the banner to see expand/collapse and fade transitions. Turn motion off to compare instant state changes.
+            </p>
+            <mdc-button id="${BANNER_SHOW_ID}" variant="secondary">Show banner</mdc-button>
+            <div id="${BANNER_SLOT_ID}" class="motionDemoBannerSlot"></div>
+          </section>
+
+          <section class="motionDemoSection">
             <h3 class="motionDemoSectionTitle">Button</h3>
             <p class="motionDemoSectionHint">Hover or focus for token-based hover transitions.</p>
             <div class="motionDemoRow">
@@ -57,14 +78,52 @@ const render: StoryFn = (args, { updateArgs }) => {
           </section>
 
           <section class="motionDemoSection">
-            <h3 class="motionDemoSectionTitle">Accordion</h3>
-            <p class="motionDemoSectionHint">Expand and collapse to see fade and height transitions.</p>
-            <div role="${ROLE.MAIN}">
-              <mdc-accordionbutton header-text="Accordion panel" prefix-icon="info-circle-bold">
-                <h3>This is a heading for this accordion component.</h3>
-                <p>Token-based expand and collapse motion runs when this panel opens and closes. This is a paragraph for this accordion component.</p>
-              </mdc-accordionbutton>
-            </div>
+            <h3 class="motionDemoSectionTitle">Calendar</h3>
+            <p class="motionDemoSectionHint">
+              Hover days, adjust the range, and change months to see day, range-fill, and month cross-fade transitions.
+            </p>
+            <mdc-calendar
+              class="motionDemoCalendar"
+              selection-mode="range"
+              value="2025-07-10"
+              end-value="2025-07-20"
+              locale="en-US"
+              show-today-button
+              locale-today-label="Today"
+              locale-prev-month-label="Go to previous month"
+              locale-next-month-label="Go to next month"
+            ></mdc-calendar>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Dialog</h3>
+            <p class="motionDemoSectionHint">Open the dialog to see backdrop and content fade transitions.</p>
+            <mdc-button id="${DIALOG_TRIGGER_ID}" @click=${openDialog} variant="secondary">Open dialog</mdc-button>
+            <mdc-dialog
+              id="${DIALOG_ID}"
+              triggerID="${DIALOG_TRIGGER_ID}"
+              header-text="Motion demo"
+              description-text="Dialog fade transitions use motion tokens."
+              size="medium"
+              @close=${closeDialog}
+            >
+              <div slot="dialog-body">
+                <p>Use the Motion toggle to compare backdrop and content fade transitions.</p>
+              </div>
+              <mdc-button slot="footer-button-primary" @click=${closeDialog}>Done</mdc-button>
+            </mdc-dialog>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Menu popover</h3>
+            <p class="motionDemoSectionHint">Open the menu to see slide entrance and exit transitions.</p>
+            <mdc-button id="${MENU_TRIGGER_ID}" variant="secondary">Open menu</mdc-button>
+            <mdc-menupopover triggerID="${MENU_TRIGGER_ID}" placement="bottom-start" aria-label="Demo menu">
+              <mdc-menuitem label="New"></mdc-menuitem>
+              <mdc-menuitem label="Open"></mdc-menuitem>
+              <mdc-divider></mdc-divider>
+              <mdc-menuitem label="Save"></mdc-menuitem>
+            </mdc-menupopover>
           </section>
 
           <section class="motionDemoSection">
@@ -94,46 +153,6 @@ const render: StoryFn = (args, { updateArgs }) => {
               <mdc-tab text="Messages" tab-id="messages-tab" icon-name="chat-bold" variant="line"></mdc-tab>
               <mdc-tab text="Settings" tab-id="settings-tab" icon-name="settings-bold" variant="line"></mdc-tab>
             </mdc-tablist>
-          </section>
-
-          <section class="motionDemoSection">
-            <h3 class="motionDemoSectionTitle">Menu popover</h3>
-            <p class="motionDemoSectionHint">Open the menu to see slide entrance and exit transitions.</p>
-            <mdc-button id="${MENU_TRIGGER_ID}" variant="secondary">Open menu</mdc-button>
-            <mdc-menupopover triggerID="${MENU_TRIGGER_ID}" placement="bottom-start" aria-label="Demo menu">
-              <mdc-menuitem label="New"></mdc-menuitem>
-              <mdc-menuitem label="Open"></mdc-menuitem>
-              <mdc-divider></mdc-divider>
-              <mdc-menuitem label="Save"></mdc-menuitem>
-            </mdc-menupopover>
-          </section>
-
-          <section class="motionDemoSection">
-            <h3 class="motionDemoSectionTitle">Dialog</h3>
-            <p class="motionDemoSectionHint">Open the dialog to see backdrop and content fade transitions.</p>
-            <mdc-button id="${DIALOG_TRIGGER_ID}" @click=${openDialog} variant="secondary">Open dialog</mdc-button>
-            <mdc-dialog
-              id="${DIALOG_ID}"
-              triggerID="${DIALOG_TRIGGER_ID}"
-              header-text="Motion demo"
-              description-text="Dialog fade transitions use motion tokens."
-              size="medium"
-              @close=${closeDialog}
-            >
-              <div slot="dialog-body">
-                <p>Use the Motion toggle to compare backdrop and content fade transitions.</p>
-              </div>
-              <mdc-button slot="footer-button-primary" @click=${closeDialog}>Done</mdc-button>
-            </mdc-dialog>
-          </section>
-
-          <section class="motionDemoSection">
-            <h3 class="motionDemoSectionTitle">Banner</h3>
-            <p class="motionDemoSectionHint">
-              Show and dismiss the banner to see expand/collapse and fade transitions. Turn motion off to compare instant state changes.
-            </p>
-            <mdc-button id="${BANNER_SHOW_ID}" variant="secondary">Show banner</mdc-button>
-            <div id="${BANNER_SLOT_ID}" class="motionDemoBannerSlot"></div>
           </section>
         </div>
       </mdc-motionprovider>
