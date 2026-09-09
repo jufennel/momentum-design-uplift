@@ -110,20 +110,18 @@ reference a duration or easing token, and comes in one of four shapes:
 
 - **`transition`** — animates named CSS properties between states, compiled to
   its own `--mds-transition-*` custom property (e.g. `buttonBackground`
-  transitions `background-color`; `checkboxDefault` transitions
-  `background-color` and `border-color`).
+  transitions `background-color`).
 - **`transitionCompound`** — runs several transitions in parallel under one
   `--mds-transition-*` custom property (e.g. `buttonHover` combines
   `buttonBackground` and `buttonBorder`).
 - **`keyframe`** — a from/to keyframe animation, compiled to its own
   `--mds-animation-*` custom property plus a matching `@keyframes` block
-  (e.g. `buttonLoadingSpin` rotates `0deg → 360deg` on an infinite loop;
-  `checkboxChecked` scales `0.8 → 1`).
+  (e.g. `buttonLoadingSpin` rotates `0deg → 360deg` on an infinite loop).
 - **`keyframeCompound`** — several keyframes combined under one
   `--mds-animation-*` custom property (e.g. `buttonLoadingSpinPulse` =
   `buttonLoadingSpin` + `buttonLoadingPulse`).
 
-Animations currently cover `button`, `checkbox`, surface enter/exit
+Animations currently cover `button`, surface enter/exit
 (`fadeIn` / `fadeOut`, `slideEntrance` / `slideExit`), panel height
 (`expand` / `collapse` on `grid-template-rows`), and reusable text/scale
 primitives (`textChange`, `growShrink`). Because each one

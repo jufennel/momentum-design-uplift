@@ -18,6 +18,7 @@
 }
 
 .backgroundGradient {
+  min-height: 100%;
   background: var(--mds-color-theme-background-gradient-primary-normal);
 }
 
