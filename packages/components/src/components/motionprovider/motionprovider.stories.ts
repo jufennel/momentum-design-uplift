@@ -15,6 +15,7 @@ import '../divider';
 import '../dialog';
 import '../banner';
 import '../calendar';
+import '../cardcheckbox';
 import { hideAllControls } from '../../../config/storybook/utils';
 import { ROLE } from '../../utils/roles';
 
@@ -93,6 +94,30 @@ const render: StoryFn = (args, { updateArgs }) => {
               locale-prev-month-label="Go to previous month"
               locale-next-month-label="Go to next month"
             ></mdc-calendar>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Card checkbox</h3>
+            <p class="motionDemoSectionHint">
+              Click each card to see background and selection-indicator transitions. Turn motion off to compare instant
+              state changes.
+            </p>
+            <div class="motionDemoRow">
+              <mdc-cardcheckbox
+                card-title="Check indicator"
+                subtitle='selection-type="check"'
+                icon-name="placeholder-bold"
+                selection-type="check"
+                style="--mdc-card-width: 16rem;"
+              ></mdc-cardcheckbox>
+              <mdc-cardcheckbox
+                card-title="Check indicator"
+                subtitle='selection-type="check"'
+                icon-name="placeholder-bold"
+                selection-type="check"
+                style="--mdc-card-width: 16rem;"
+              ></mdc-cardcheckbox>
+            </div>
           </section>
 
           <section class="motionDemoSection">
