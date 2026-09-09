@@ -3,6 +3,7 @@ import { property, state } from 'lit/decorators.js';
 
 import Chip from '../chip/chip.component';
 import { DEFAULTS as CHIP_DEFAULTS } from '../chip/chip.constants';
+
 import styles from './filterchip.styles';
 import { DATA_MOTION, DEFAULTS, REDUCED_MOTION_QUERY } from './filterchip.constants';
 
