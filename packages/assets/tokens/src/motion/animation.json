@@ -168,7 +168,7 @@
         "display"
       ],
       "duration": "{motion.duration.fast}",
-      "easing": "{motion.easing.standard}",
+      "easing": "{motion.easing.entrance}",
       "delay": "{motion.delay.none}"
     },
     "fadeOut": {
@@ -179,7 +179,7 @@
         "display"
       ],
       "duration": "{motion.duration.instant}",
-      "easing": "{motion.easing.standard}",
+      "easing": "{motion.easing.exit}",
       "delay": "{motion.delay.none}"
     },
     "expand": {
@@ -188,7 +188,7 @@
       "properties": [
         "grid-template-rows"
       ],
-      "duration": "{motion.duration.fast}",
+      "duration": "{motion.duration.normal}",
       "easing": "{motion.easing.entrance}",
       "delay": "{motion.delay.none}"
     },
@@ -198,7 +198,7 @@
       "properties": [
         "grid-template-rows"
       ],
-      "duration": "{motion.duration.fast}",
+      "duration": "{motion.duration.normal}",
       "easing": "{motion.easing.exit}",
       "delay": "{motion.delay.none}"
     },
