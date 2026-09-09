@@ -31,7 +31,7 @@ const styles = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     right: 50%;
     bottom: 50%;
     transform: translateX(50%) translateY(50%);
