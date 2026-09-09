@@ -16,6 +16,7 @@ import '../dialog';
 import '../banner';
 import '../calendar';
 import '../cardcheckbox';
+import '../filterchip';
 import { hideAllControls } from '../../../config/storybook/utils';
 import { ROLE } from '../../utils/roles';
 
@@ -117,6 +118,19 @@ const render: StoryFn = (args, { updateArgs }) => {
                 selection-type="check"
                 style="--mdc-card-width: 16rem;"
               ></mdc-cardcheckbox>
+            </div>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Filter chip</h3>
+            <p class="motionDemoSectionHint">
+              Click each chip to see background, border-color, and checkmark fade transitions. Turn motion off to
+              compare instant state changes.
+            </p>
+            <div class="motionDemoRow">
+              <mdc-filterchip label="In stock"></mdc-filterchip>
+              <mdc-filterchip label="On sale"></mdc-filterchip>
+              <mdc-filterchip label="Free shipping"></mdc-filterchip>
             </div>
           </section>
 
