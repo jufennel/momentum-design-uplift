@@ -17,6 +17,7 @@ import '../banner';
 import '../calendar';
 import '../cardcheckbox';
 import '../filterchip';
+import '../input';
 import { hideAllControls } from '../../../config/storybook/utils';
 import { ROLE } from '../../utils/roles';
 
@@ -122,19 +123,6 @@ const render: StoryFn = (args, { updateArgs }) => {
           </section>
 
           <section class="motionDemoSection">
-            <h3 class="motionDemoSectionTitle">Filter chip</h3>
-            <p class="motionDemoSectionHint">
-              Click each chip to see background, border-color, and checkmark fade transitions. Turn motion off to
-              compare instant state changes.
-            </p>
-            <div class="motionDemoRow">
-              <mdc-filterchip label="In stock"></mdc-filterchip>
-              <mdc-filterchip label="On sale"></mdc-filterchip>
-              <mdc-filterchip label="Free shipping"></mdc-filterchip>
-            </div>
-          </section>
-
-          <section class="motionDemoSection">
             <h3 class="motionDemoSectionTitle">Dialog</h3>
             <p class="motionDemoSectionHint">Open the dialog to see backdrop and content fade transitions.</p>
             <mdc-button id="${DIALOG_TRIGGER_ID}" @click=${openDialog} variant="secondary">Open dialog</mdc-button>
@@ -151,6 +139,33 @@ const render: StoryFn = (args, { updateArgs }) => {
               </div>
               <mdc-button slot="footer-button-primary" @click=${closeDialog}>Done</mdc-button>
             </mdc-dialog>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Filter chip</h3>
+            <p class="motionDemoSectionHint">
+              Click each chip to see background, border-color, and checkmark fade transitions. Turn motion off to
+              compare instant state changes.
+            </p>
+            <div class="motionDemoRow">
+              <mdc-filterchip label="In stock"></mdc-filterchip>
+              <mdc-filterchip label="On sale"></mdc-filterchip>
+              <mdc-filterchip label="Free shipping"></mdc-filterchip>
+            </div>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Input</h3>
+            <p class="motionDemoSectionHint">
+              Hover and focus the field to see background and border color transitions. Turn motion off to compare
+              instant state changes.
+            </p>
+            <mdc-input
+              label="Project name"
+              placeholder="Enter a project name"
+              help-text="Used across your workspace."
+              style="max-width: 20rem;"
+            ></mdc-input>
           </section>
 
           <section class="motionDemoSection">

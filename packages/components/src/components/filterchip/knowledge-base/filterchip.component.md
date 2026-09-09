@@ -60,7 +60,7 @@ Listen for the `click` event (or `keydown`/`keyup` for keyboard activation) to r
 
 ### Motion
 
-Selected and unselected toggles animate the chip `background-color` and `border-color` using `--mds-transition-button-background` and `--mds-transition-button-border`. Border width change (1px to 2px when selected) remains instant.
+Selected and unselected toggles animate the chip `background-color` and `border-color` using `--mds-transition-background-color` and `--mds-transition-border-color`. Border width change (1px to 2px when selected) remains instant.
 
 The checkmark icon fades in on select using `--mds-transition-fade-in` and fades out on deselect using `--mds-transition-fade-out` before it is removed from the DOM.
 

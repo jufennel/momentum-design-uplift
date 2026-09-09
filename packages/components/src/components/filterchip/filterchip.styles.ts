@@ -2,7 +2,7 @@ import { css } from 'lit';
 
 const styles = css`
   :host([data-motion-surface]) {
-    transition: var(--mds-transition-button-background), var(--mds-transition-button-border);
+    transition: var(--mds-transition-background-color), var(--mds-transition-border-color);
   }
 
   :host([selected]) {

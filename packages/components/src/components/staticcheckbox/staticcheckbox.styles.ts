@@ -23,7 +23,8 @@ const styles = [
       border-radius: 0.125rem;
       transform: scale(1);
       transform-origin: center;
-      transition: var(--mds-transition-button-hover), var(--mds-transition-grow-shrink);
+      transition: var(--mds-transition-background-color), var(--mds-transition-border-color),
+        var(--mds-transition-grow-shrink);
     }
 
     @starting-style {

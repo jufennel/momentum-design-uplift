@@ -125,8 +125,8 @@ Token-based motion runs when `mds-animation` scope classes are present (via `mdc
 
 | Interaction | Token(s) | Behavior |
 | --- | --- | --- |
-| Day hover / selected / today border | `buttonBackground`, `buttonBorder` | CSS transitions on `background-color` and `border-color` |
-| Range fill | `buttonBackground`, `buttonBorder` | CSS transitions on the wrapper `::before` pseudo |
+| Day hover / selected / today border | `backgroundColor`, `borderColor` | CSS transitions on `background-color` and `border-color` |
+| Range fill | `backgroundColor`, `borderColor` | CSS transitions on the wrapper `::before` pseudo |
 | Month navigation | `fadeIn`, `fadeOut` | Cross-fade between outgoing and incoming month grids |
 
 Month navigation updates the header label immediately while the day grid cross-fades. The outgoing grid layer is `aria-hidden` during the transition. `data-grid-motion` on `.calendar-grid-viewport` reflects `idle` or `crossfading` for debugging and tests.

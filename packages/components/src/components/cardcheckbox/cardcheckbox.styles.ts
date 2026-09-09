@@ -10,7 +10,7 @@ const styles = css`
   }
 
   :host([data-motion-background]) {
-    transition: var(--mds-transition-button-background);
+    transition: var(--mds-transition-background-color);
   }
 
   :host(:dir(ltr))::part(check) {

@@ -130,7 +130,7 @@ const styles = css`
     opacity: 0;
     z-index: 0;
     pointer-events: none;
-    transition: var(--mds-transition-button-background), var(--mds-transition-button-border);
+    transition: var(--mds-transition-background-color), var(--mds-transition-border-color);
   }
 
   .calendar-day-wrapper.in-range::before {
@@ -179,7 +179,7 @@ const styles = css`
     outline: none;
     font-family: inherit;
     box-sizing: border-box;
-    transition: var(--mds-transition-button-background), var(--mds-transition-button-border);
+    transition: var(--mds-transition-background-color), var(--mds-transition-border-color);
   }
 
   .calendar-day:hover:not(.disabled):not(.outside-month):not(.selected) {
@@ -191,7 +191,7 @@ const styles = css`
     outline: none;
     z-index: 1;
     box-shadow: ${focusRingBoxShadow};
-    transition: var(--mds-transition-button-background), var(--mds-transition-button-border);
+    transition: var(--mds-transition-background-color), var(--mds-transition-border-color);
   }
 
   @media (forced-colors: active) {

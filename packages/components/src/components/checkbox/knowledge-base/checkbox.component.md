@@ -91,7 +91,7 @@ Keep links, buttons, and other interactive elements out of `leading-visual`. Pla
 
 ### Motion
 
-The embedded `mdc-staticcheckbox` visual animates hover, press, check, uncheck, and indeterminate transitions using shared Momentum motion tokens (`--mds-transition-button-hover`, `--mds-transition-grow-shrink`, `--mds-transition-fade-in`, `--mds-transition-fade-out`). Hover colors set on the host in `checkbox.styles.ts` animate on the static checkbox box. Focus ring appearance remains instant.
+The embedded `mdc-staticcheckbox` visual animates hover, press, check, uncheck, and indeterminate transitions using shared Momentum motion tokens (`--mds-transition-background-color`, `--mds-transition-border-color`, `--mds-transition-grow-shrink`, `--mds-transition-fade-in`, `--mds-transition-fade-out`). Hover colors set on the host in `checkbox.styles.ts` animate on the static checkbox box. Focus ring appearance remains instant.
 
 When `prefers-reduced-motion: reduce` is active or motion tokens resolve to `none` (for example under `mdc-motionprovider motion="reduce"`), checkbox state changes apply instantly with no transition delay.
 

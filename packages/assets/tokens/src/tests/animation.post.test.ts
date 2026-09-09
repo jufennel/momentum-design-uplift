@@ -43,7 +43,7 @@ describe('Animation tokens (post-build)', () => {
 
   it('CSS output should include prefers-reduced-motion overrides', () => {
     expect(css).toContain('@media (prefers-reduced-motion: reduce)');
-    expect(css).toContain('--mds-transition-button-background: none;');
+    expect(css).toContain('--mds-transition-background-color: none;');
     expect(css).toContain('--mds-animation-button-loading-spin: none;');
   });
 

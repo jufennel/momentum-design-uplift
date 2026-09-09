@@ -1,7 +1,7 @@
 {
   "animation": {
-    "buttonBackground": {
-      "description": "Button background color transition on hover/press",
+    "backgroundColor": {
+      "description": "Surface background color transition on state change",
       "type": "transition",
       "properties": [
         "background-color"
@@ -10,8 +10,8 @@
       "easing": "{motion.easing.standard}",
       "delay": "{motion.delay.none}"
     },
-    "buttonBorder": {
-      "description": "Button border and shadow transition on focus",
+    "borderColor": {
+      "description": "Surface border color and shadow transition on state change",
       "type": "transition",
       "properties": [
         "border-color",
@@ -42,24 +42,6 @@
       "duration": "{motion.duration.instant}",
       "easing": "{motion.easing.standard}",
       "delay": "{motion.delay.none}"
-    },
-    "buttonPress": {
-      "description": "Button press effect combining background and icon transitions",
-      "type": "transitionCompound",
-      "animations": [
-        "buttonBackground",
-        "buttonIcon"
-      ],
-      "composition": "parallel"
-    },
-    "buttonHover": {
-      "description": "Button hover effect combining background and border transitions",
-      "type": "transitionCompound",
-      "animations": [
-        "buttonBackground",
-        "buttonBorder"
-      ],
-      "composition": "parallel"
     },
     "buttonLoadingSpin": {
       "description": "Button loading spinner - continuous rotation for button loading states",

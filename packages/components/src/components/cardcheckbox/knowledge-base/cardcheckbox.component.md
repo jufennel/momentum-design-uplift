@@ -86,7 +86,7 @@ Listen for the `change` event to react to toggles; the new state is available on
 
 ### Motion
 
-Checked and unchecked toggles animate the card `background-color` using `--mds-transition-button-background`. Hover and active background colors remain instant.
+Checked and unchecked toggles animate the card `background-color` using `--mds-transition-background-color`. Hover and active background colors remain instant.
 
 For `selection-type="check"` (default), the header check icon scales and fades in when selected and scales and fades when cleared, using `--mds-transition-grow-shrink`, `--mds-transition-fade-in`, and `--mds-transition-fade-out`. Icon color changes remain instant.
 

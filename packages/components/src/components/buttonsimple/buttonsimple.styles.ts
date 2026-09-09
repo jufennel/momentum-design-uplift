@@ -21,7 +21,7 @@ const styles = [
       height: var(--mdc-button-height);
       outline: none;
 
-      transition: var(--mds-transition-button-hover);
+      transition: var(--mds-transition-background-color), var(--mds-transition-border-color);
     }
 
     :host([disabled]),

@@ -60,7 +60,7 @@ Minimal markup example:
 
 State changes animate via Momentum motion tokens on the icon container and checkmark:
 
-- Hover and press (when driven by a parent such as `mdc-checkbox`) transition `background-color` and `border-color` using `--mds-transition-button-hover`.
+- Hover and press (when driven by a parent such as `mdc-checkbox`) transition `background-color` and `border-color` using `--mds-transition-background-color` and `--mds-transition-border-color`.
 - Checking or entering `indeterminate` scales the box in (`--mds-transition-grow-shrink`) and fades the icon in (`--mds-transition-fade-in`).
 - Unchecking fades the icon out (`--mds-transition-fade-out`) and runs a brief scale pulse on the box.
 - Switching between `checked` and `indeterminate` swaps the icon glyph instantly without replaying the entrance animation.
