@@ -354,21 +354,21 @@ own custom property that a consumer can reference by name, the same way they’d
 reference a duration or easing token, and comes in one of four shapes:</mdc-text>
 <ul>
 <li><mdc-text tagname="span" type="body-large-regular"><strong><code>transition</code></strong> — animates named CSS properties between states, compiled to
-its own <code>--mds-transition-*</code> custom property (e.g. <code>buttonBackground</code>
-transitions <code>background-color</code>; <code>checkboxDefault</code> transitions
-<code>background-color</code> and <code>border-color</code>).</mdc-text></li>
+its own <code>--mds-transition-*</code> custom property (e.g. <code>backgroundColor</code>
+transitions <code>background-color</code>).</mdc-text></li>
 <li><mdc-text tagname="span" type="body-large-regular"><strong><code>transitionCompound</code></strong> — runs several transitions in parallel under one
-<code>--mds-transition-*</code> custom property (e.g. <code>buttonHover</code> combines
-<code>buttonBackground</code> and <code>buttonBorder</code>).</mdc-text></li>
+<code>--mds-transition-*</code> custom property (e.g. <code>buttonLoadingSpinPulse</code> combines
+<code>buttonLoadingSpin</code> and <code>buttonLoadingPulse</code>). Surface <code>background-color</code> and
+<code>border-color</code> use the <code>backgroundColor</code> and <code>borderColor</code> primitives directly
+in component styles rather than a shared compound token.</mdc-text></li>
 <li><mdc-text tagname="span" type="body-large-regular"><strong><code>keyframe</code></strong> — a from/to keyframe animation, compiled to its own
 <code>--mds-animation-*</code> custom property plus a matching <code>@keyframes</code> block
-(e.g. <code>buttonLoadingSpin</code> rotates <code>0deg → 360deg</code> on an infinite loop;
-<code>checkboxChecked</code> scales <code>0.8 → 1</code>).</mdc-text></li>
+(e.g. <code>buttonLoadingSpin</code> rotates <code>0deg → 360deg</code> on an infinite loop).</mdc-text></li>
 <li><mdc-text tagname="span" type="body-large-regular"><strong><code>keyframeCompound</code></strong> — several keyframes combined under one
 <code>--mds-animation-*</code> custom property (e.g. <code>buttonLoadingSpinPulse</code> =
 <code>buttonLoadingSpin</code> + <code>buttonLoadingPulse</code>).</mdc-text></li>
 </ul>
-<mdc-text tagname="p" type="body-large-regular">Animations currently cover <code>button</code>, <code>checkbox</code>, surface enter/exit
+<mdc-text tagname="p" type="body-large-regular">Animations currently cover <code>button</code>, surface enter/exit
 (<code>fadeIn</code> / <code>fadeOut</code>, <code>slideEntrance</code> / <code>slideExit</code>), panel height
 (<code>expand</code> / <code>collapse</code> on <code>grid-template-rows</code>), and reusable text/scale
 primitives (<code>textChange</code>, <code>growShrink</code>). Because each one
