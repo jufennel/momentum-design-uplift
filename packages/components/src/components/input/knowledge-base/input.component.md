@@ -97,6 +97,21 @@ Listen for `input`/`change` to read the value as the user types and on blur; lis
 
 ## Accessibility
 
+### Motion
+
+The input container (`::part(input-container)`) animates `background-color` and `border-color` on state change using `--mds-transition-background-color` and `--mds-transition-border-color`.
+
+| State | Animated property |
+| --- | --- |
+| Hover (enabled) | `background-color` |
+| Focus / active (enabled) | `border-color` |
+| `help-text-type` validation | `border-color` |
+| `disabled` / `readonly` | `background-color`, `border-color` |
+
+Focus ring appearance (`box-shadow` / `outline` from `hostFocusRingStyles`) remains instant. Text, placeholder, icon, and clear-button visibility are not animated.
+
+When `prefers-reduced-motion: reduce` is active or motion tokens are scoped off via `mdc-motionprovider`, transitions resolve to `none` and state changes apply instantly.
+
 ### Built-in features
 
 The wrapper renders the label as a native `<label for>` element linked to the underlying `<input>` by `id`, so clicking the label focuses the input with no extra wiring. When helper text is rendered, the input's `aria-describedby` points at the helper-text id so the message is announced when the input receives focus. When `help-text-type="error"`, `aria-invalid="true"` is set on the input. The `required` flag drives the native `required` attribute on the input (the visual `*` is decorative). The trailing clear button is rendered as an `mdc-button` with its own `aria-label` (`clear-aria-label`). Prefix text is rendered with `aria-hidden="true"` to avoid double announcement — the consumer must supply `data-aria-label` so the input still has an accessible name. Pressing `Enter` in the field submits the surrounding form via `form.requestSubmit()`.

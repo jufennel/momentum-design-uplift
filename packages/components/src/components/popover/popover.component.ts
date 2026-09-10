@@ -53,6 +53,7 @@ import { PopoverUtils } from './popover.utils';
  * @cssproperty --mdc-popover-max-height - max height of the popover
  * @cssproperty --mdc-popover-width - width of the popover
  * @cssproperty --mdc-popover-backdrop-color - background color of the backdrop (if backdrop is enabled)
+ * @cssproperty --mdc-popover-slide-offset - slide distance for entrance and exit motion (default 1rem)
  *
  * @slot - Default slot for the popover content
  *
