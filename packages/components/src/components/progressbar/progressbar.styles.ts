@@ -47,7 +47,9 @@ const styles = [
       height: 100%;
       background-color: var(--mdc-progressbar-progress-background-color);
       border-radius: var(--mdc-progressbar-border-radius);
-      transition: width 0.3s ease-in-out;
+      transition:
+        width var(--mds-motion-duration-normal) var(--mds-motion-easing-standard),
+        var(--mds-transition-background-color);
     }
 
     :host::part(success) {
@@ -69,6 +71,12 @@ const styles = [
       font-size: var(--mds-font-apps-body-midsize-regular-font-size);
       font-weight: var(--mds-font-apps-body-midsize-regular-font-weight);
       line-height: var(--mds-font-apps-body-midsize-regular-line-height);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :host::part(progress-bar) {
+        transition: none;
+      }
     }
 
     @media (forced-colors: active) {

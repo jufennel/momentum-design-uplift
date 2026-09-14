@@ -68,7 +68,7 @@ Inline variant with helper text:
 | --- | --- |
 | `variant` | `default` stacks the label and percentage above the bar with helper text below; `inline` places the label beside the bar on one line with no percentage. Choose `inline` for dense rows. |
 | `value` | Current progress as a string percentage `"0"`–`"100"`; out-of-range or non-numeric values clamp to that range (default `"0"`). |
-| `error` | When `true`, applies the error treatment, fills the bar, and forces `help-text-type` to `error`. |
+| `error` | When `true`, applies the error color treatment and forces `help-text-type` to `error`; fill width stays at `value`. |
 | `label` | Visible label for the bar; use the `label` slot instead for richer content. |
 | `help-text` | Helper or validation text shown below the bar. |
 | `help-text-type` | Derived automatically — `error` on error, `success` at 100, otherwise `default` — with the matching icon. |
@@ -80,6 +80,14 @@ Inline variant with helper text:
 - **Determinate only** — the bar is meant to move forward toward completion; driving `value` backward visually regresses and confuses users.
 - **String value** — `value` is a string attribute clamped to 0–100; non-numeric input silently becomes `0`.
 - **Inline hides percentage** — the `inline` variant shows no percentage readout; use `default` (or `help-text`) when the exact percent must be visible.
+
+### Motion
+
+- When `value` changes, the progress fill width animates using core motion tokens (`--mds-motion-duration-normal`, `--mds-motion-easing-standard`).
+- When the fill moves between in-progress, success (`value` at 100), and error states, the fill color animates via `--mds-transition-background-color`.
+- Error applies the attention color only; width continues to reflect `value`.
+- Motion is decorative; `aria-valuenow` updates immediately when `value` changes.
+- Under `prefers-reduced-motion: reduce` or when token scope is removed (for example `mdc-motionprovider motion="reduce"`), width and color updates are instant.
 
 ## Accessibility
 

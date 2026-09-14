@@ -109,7 +109,7 @@ class Progressbar extends DataAriaLabelMixin(FormfieldWrapper) {
   private renderProgressbar = () => {
     const variant = this.getValidationVariant();
     const isGap = this.clampedValue > 0 && this.clampedValue < 100;
-    const progressWidth = this.error ? '100' : `${this.clampedValue}`;
+    const progressWidth = `${this.clampedValue}`;
     return html`
       <div
         part="progress-container ${isGap ? 'gap' : ''}"

@@ -18,10 +18,16 @@ import '../calendar';
 import '../cardcheckbox';
 import '../filterchip';
 import '../input';
+import '../progressbar';
 import { hideAllControls } from '../../../config/storybook/utils';
 import { ROLE } from '../../utils/roles';
 
 const MENU_TRIGGER_ID = 'motion-demo-menu-trigger';
+const PROGRESSBAR_SELECTOR = '[data-motion-demo="progressbar"]';
+const PROGRESSBAR_VALUE_0_ID = 'motion-demo-progressbar-value-0';
+const PROGRESSBAR_VALUE_50_ID = 'motion-demo-progressbar-value-50';
+const PROGRESSBAR_VALUE_100_ID = 'motion-demo-progressbar-value-100';
+const PROGRESSBAR_ERROR_ID = 'motion-demo-progressbar-error';
 const DIALOG_TRIGGER_ID = 'motion-demo-dialog-trigger';
 const DIALOG_ID = 'motion-demo-dialog';
 const BANNER_SHOW_ID = 'motion-demo-banner-show';
@@ -39,6 +45,37 @@ const openDialog = (): void => {
 
 const closeDialog = (): void => {
   document.getElementById(DIALOG_ID)?.removeAttribute('visible');
+};
+
+const syncProgressbarDemoButtons = (value: string, error: boolean): void => {
+  document.getElementById(PROGRESSBAR_VALUE_0_ID)?.toggleAttribute('active', value === '0' && !error);
+  document.getElementById(PROGRESSBAR_VALUE_50_ID)?.toggleAttribute('active', value === '50' && !error);
+  document.getElementById(PROGRESSBAR_VALUE_100_ID)?.toggleAttribute('active', value === '100' && !error);
+  document.getElementById(PROGRESSBAR_ERROR_ID)?.toggleAttribute('active', error);
+};
+
+const getProgressbarDemo = (): HTMLElement | null => document.querySelector(PROGRESSBAR_SELECTOR);
+
+const setProgressbarDemoState = (value: string, error: boolean): void => {
+  const progressbar = getProgressbarDemo();
+  if (!progressbar) {
+    return;
+  }
+
+  if (error) {
+    progressbar.setAttribute('error', '');
+  } else {
+    progressbar.removeAttribute('error');
+    progressbar.setAttribute('value', value);
+  }
+
+  syncProgressbarDemoButtons(error ? (progressbar.getAttribute('value') ?? value) : value, error);
+};
+
+const setProgressbarDemoError = (): void => {
+  const progressbar = getProgressbarDemo();
+  const currentValue = progressbar?.getAttribute('value') ?? '50';
+  setProgressbarDemoState(currentValue, true);
 };
 
 const render: StoryFn = (args, { updateArgs }) => {
@@ -178,6 +215,49 @@ const render: StoryFn = (args, { updateArgs }) => {
               <mdc-divider></mdc-divider>
               <mdc-menuitem label="Save"></mdc-menuitem>
             </mdc-menupopover>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Progressbar</h3>
+            <p class="motionDemoSectionHint">
+              Change the value or error state to see width and fill color transitions. Turn motion off to compare
+              instant state changes.
+            </p>
+            <mdc-progressbar
+              data-motion-demo="progressbar"
+              label="Uploading"
+              value="50"
+              help-text="Helper text"
+              data-aria-label="Upload progress"
+              style="max-width: 20rem;"
+            ></mdc-progressbar>
+            <div class="motionDemoRow">
+              <mdc-button
+                id="${PROGRESSBAR_VALUE_0_ID}"
+                variant="secondary"
+                @click=${() => setProgressbarDemoState('0', false)}
+              >
+                0%
+              </mdc-button>
+              <mdc-button
+                id="${PROGRESSBAR_VALUE_50_ID}"
+                variant="secondary"
+                active
+                @click=${() => setProgressbarDemoState('50', false)}
+              >
+                50%
+              </mdc-button>
+              <mdc-button
+                id="${PROGRESSBAR_VALUE_100_ID}"
+                variant="secondary"
+                @click=${() => setProgressbarDemoState('100', false)}
+              >
+                100%
+              </mdc-button>
+              <mdc-button id="${PROGRESSBAR_ERROR_ID}" variant="secondary" @click=${setProgressbarDemoError}>
+                Error
+              </mdc-button>
+            </div>
           </section>
 
           <section class="motionDemoSection">
