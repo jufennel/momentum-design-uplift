@@ -223,7 +223,7 @@ Cisco’s brand is about the flow of information and the energy of collaboration
 <li><mdc-text tagname="span" type="body-large-regular"><strong>Core primitives</strong> — <code>packages/assets/tokens/src/core/motion.json</code>, compiled
 under the <code>.mds-motion</code> selector as <code>--mds-motion-*</code> custom properties. The raw
 duration, easing, delay, and stagger scales.</mdc-text></li>
-<li><mdc-text tagname="span" type="body-large-regular"><strong>Animations</strong> — <code>packages/assets/tokens/src/motion/animation.json</code>, compiled
+<li><mdc-text tagname="span" type="body-large-regular"><strong>Animations</strong> — <code>packages/assets/tokens/src/animation/animation.json</code>, compiled
 under <code>.mds-animation</code> as named <code>--mds-transition-*</code> / <code>--mds-animation-*</code>
 custom properties. Each is a real, directly consumable token — reference one
 by name the same way you’d reference a duration or easing token (see
@@ -348,7 +348,7 @@ rather than all at once.</mdc-text>
 <table><thead><tr><th><mdc-text tagname="span" type="body-large-bold">Token</mdc-text></th><th><mdc-text tagname="span" type="body-large-bold">Use for</mdc-text></th></tr></thead><tbody><tr><td><mdc-text tagname="span" type="body-large-regular"><code>tight</code></mdc-text></td><td><mdc-text tagname="span" type="body-large-regular">Dense lists — many items cascading in quick succession</mdc-text></td></tr><tr><td><mdc-text tagname="span" type="body-large-regular"><code>normal</code></mdc-text></td><td><mdc-text tagname="span" type="body-large-regular">The default cascade offset for most grouped items</mdc-text></td></tr><tr><td><mdc-text tagname="span" type="body-large-regular"><code>relaxed</code></mdc-text></td><td><mdc-text tagname="span" type="body-large-regular">Sparse or emphatic groups — a slower, more deliberate cascade</mdc-text></td></tr></tbody></table>
 <mdc-text tagname="p" type="body-large-regular">Authoritative source: <code>packages/assets/tokens/src/core/motion.json</code>.</mdc-text>
 <mdc-text id="animations" tagname="h2" type="heading-midsize-bold"><a href="#animations" class="kb-heading-anchor">Animations</a></mdc-text>
-<mdc-text tagname="p" type="body-large-regular"><code>motion/animation.json</code> composes the core primitives into named, directly
+<mdc-text tagname="p" type="body-large-regular"><code>animation/animation.json</code> composes the core primitives into named, directly
 consumable animations — not an internal build detail. Each one compiles to its
 own custom property that a consumer can reference by name, the same way they’d
 reference a duration or easing token, and comes in one of four shapes:</mdc-text>
@@ -380,7 +380,7 @@ in-flow surfaces such as banners when the consuming component sets slide
 direction (for example <code>translateY</code>) and keeps <code>display</code> in a single in-flow
 value. Pair slide on the host with <code>expand</code> / <code>collapse</code> when layout height
 should animate in document flow.</mdc-text>
-<mdc-text tagname="p" type="body-large-regular">Authoritative source: <code>packages/assets/tokens/src/motion/animation.json</code>.</mdc-text>
+<mdc-text tagname="p" type="body-large-regular">Authoritative source: <code>packages/assets/tokens/src/animation/animation.json</code>.</mdc-text>
 <mdc-text id="usage" tagname="h2" type="heading-midsize-bold"><a href="#usage" class="kb-heading-anchor">Usage</a></mdc-text>
 <ul>
 <li><mdc-text tagname="span" type="body-large-regular"><strong>Use tokens, not literals</strong> — reference <code>--mds-motion-*</code>, or a named
