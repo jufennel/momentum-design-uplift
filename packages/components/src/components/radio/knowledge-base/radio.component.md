@@ -74,6 +74,12 @@ Listen for `change`/`input` to react when the selected option changes; the host 
 
 **Note:** `name`, `value`, and `validation-message` participate in form submission via ElementInternals (`formResetCallback` unchecks the group; `formStateRestoreCallback` rechecks the matching value). A custom indicator can be slotted into `indicator`. Events: `input`, `change`, `focus`.
 
+### Motion
+
+The embedded `mdc-staticradio` transitions its outer-circle background and border colors across hover, pressed, checked, disabled, soft-disabled, and readonly states. It uses `--mds-transition-background-color` and `--mds-transition-border-color`; the inner selected dot and focus ring remain immediate.
+
+When `prefers-reduced-motion: reduce` is active or motion tokens resolve to `none`, such as under `mdc-motionprovider motion="reduce"`, color changes apply immediately. A custom element in the `indicator` slot replaces `mdc-staticradio` and must provide its own motion.
+
 ### Limitations
 
 - **No required asterisk** — a `required` radio renders no visible indicator, even though native validation still applies; convey "required" in the group label or `help-text`.

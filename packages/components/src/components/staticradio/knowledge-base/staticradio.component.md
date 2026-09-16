@@ -50,6 +50,12 @@ Minimal markup example:
 | `checked` | Renders the filled inner circle for the selected state. |
 | `disabled` / `soft-disabled` / `readonly` | Purely visual state styles; none change interaction (the control is never interactive). |
 
+### Motion
+
+The outer circle transitions its background and border colors with `--mds-transition-background-color` and `--mds-transition-border-color`. This motion applies when `checked`, `disabled`, `soft-disabled`, or `readonly` changes. Parent components such as `mdc-radio` can also drive the transition through hover and pressed color overrides.
+
+The inner selected dot appears and disappears immediately. When `prefers-reduced-motion: reduce` is active or motion tokens resolve to `none`, such as under `mdc-motionprovider motion="reduce"`, outer-circle colors also update immediately.
+
 ### Limitations
 
 - **Not interactive** — cannot be focused, toggled, or activated by the user; wire any interaction on the parent element.

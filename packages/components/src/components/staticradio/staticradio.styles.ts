@@ -26,6 +26,7 @@ const styles = [
       border: 0.0625rem solid var(--mdc-staticradio-outer-circle-border-color);
       background-color: var(--mdc-staticradio-outer-circle-background-color);
       border-radius: 50%;
+      transition: var(--mds-transition-background-color), var(--mds-transition-border-color);
     }
 
     .radio-icon:after {
@@ -72,6 +73,12 @@ const styles = [
       --mdc-staticradio-inner-circle-background-color: var(--mds-color-theme-inverted-text-primary-disabled);
       --mdc-staticradio-outer-circle-border-color: transparent;
       --mdc-staticradio-outer-circle-background-color: var(--mds-color-theme-control-active-disabled);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :host::part(radio-icon) {
+        transition: none;
+      }
     }
 
     @media (forced-colors: active) {
