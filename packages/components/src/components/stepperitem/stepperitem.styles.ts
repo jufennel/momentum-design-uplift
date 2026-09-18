@@ -23,9 +23,11 @@ const styles = css`
 
   :host::part(label) {
     color: var(--mdc-stepperitem-label-color);
+    transition: var(--mds-transition-object-color);
   }
   :host::part(help-text) {
     color: var(--mdc-stepperitem-help-text-color);
+    transition: var(--mds-transition-object-color);
   }
 
   :host::part(status-container) {
@@ -37,16 +39,29 @@ const styles = css`
     border-radius: 50%;
     background-color: var(--mdc-stepperitem-status-container-background);
     border: 1px solid var(--mdc-stepperitem-status-container-border-color);
+    transform: scale(1);
+    transform-origin: center;
+
+    transition:
+      var(--mds-transition-background-color),
+      var(--mds-transition-border-color),
+      var(--mds-transition-grow-shrink);
+  }
+
+  :host([data-pulse-step='grow'])::part(status-container) {
+    transform: scale(0.8);
   }
 
   :host::part(step-number) {
     color: var(--mdc-stepperitem-label-color);
+    transition: var(--mds-transition-object-color);
   }
 
   :host::part(label-container) {
     background-color: var(--mdc-stepperitem-label-container-background);
     border-radius: 0.5rem;
     padding: 0.25rem 0.5rem;
+    transition: var(--mds-transition-background-color);
   }
 
   :host([status='error-current']),
@@ -74,12 +89,12 @@ const styles = css`
   }
   :host([status='error-current'])::part(status-container) {
     --mdc-stepperitem-status-container-border-color: var(--mds-color-theme-outline-cancel-normal);
-    --mdc-stepperitem-status-container-background: none;
+    --mdc-stepperitem-status-container-background: transparent;
   }
   :host([status='error-incomplete'])::part(status-container),
   :host([status='not-started'])::part(status-container) {
     --mdc-stepperitem-status-container-border-color: var(--mds-color-theme-outline-secondary-normal);
-    --mdc-stepperitem-status-container-background: none;
+    --mdc-stepperitem-status-container-background: transparent;
   }
 
   :host([status='error-current'])::part(help-icon),
@@ -97,6 +112,7 @@ const styles = css`
 
   :host([status='completed']:hover)::part(status-container) {
     --mdc-stepperitem-status-container-background: var(--mds-color-theme-control-active-hover);
+
   }
   :host([status='completed']:active)::part(status-container) {
     --mdc-stepperitem-status-container-background: var(--mds-color-theme-control-active-active);
@@ -106,6 +122,7 @@ const styles = css`
     --mdc-stepperitem-status-container-background: var(--mds-color-theme-outline-secondary-normal);
     --mdc-stepperitem-status-container-border-color: var(--mds-color-theme-control-active-hover);
   }
+
   :host([status='current']:active)::part(status-container) {
     --mdc-stepperitem-status-container-background: var(--mds-color-theme-background-secondary-active);
     --mdc-stepperitem-status-container-border-color: var(--mds-color-theme-control-active-hover);
@@ -204,6 +221,17 @@ const styles = css`
   :host([disabled][status='completed'])::part(status-icon) {
     --mdc-icon-fill-color: var(--mds-color-theme-inverted-text-primary-disabled);
   }
+
+  @media (prefers-reduced-motion: reduce) { 
+    :host::part(status-container),
+    :host::part(step-number),
+    :host::part(label),
+    :host::part(help-text),
+    :host::part(label-container) {
+      transition: none;
+    }
+  }
+
 `;
 
 export default [hostFitContentStyles, styles, ...hostFocusRingStyles()];

@@ -1,6 +1,6 @@
 import { CSSResult, html, nothing } from 'lit';
 import type { PropertyValues } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 
 import { Component } from '../../models';
 import { TYPE, VALID_TEXT_TAGS } from '../text/text.constants';
@@ -13,8 +13,21 @@ import { KeyDownHandledMixin } from '../../utils/mixins/KeyDownHandledMixin';
 import { DisabledMixin } from '../../utils/mixins/DisabledMixin';
 
 import styles from './stepperitem.styles';
-import { DEFAULT, STATUS, STATUS_ICON } from './stepperitem.constants';
-import type { StatusType, VariantType } from './stepperitem.types';
+import { DATA_PULSE_STEP, DEFAULT, PULSE_STEP, STATUS, STATUS_ICON } from './stepperitem.constants';
+import type { PulseStep, StatusType, VariantType } from './stepperitem.types';
+
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
+const parseDurationToMs = (value: string): number => {
+  const duration = value.trim();
+  if (duration.endsWith('ms')) {
+    return Number.parseFloat(duration);
+  }
+  if (duration.endsWith('s')) {
+    return Number.parseFloat(duration) * 1000;
+  }
+  return 0;
+};
 
 /**
  * @tagname mdc-stepperitem
@@ -81,9 +94,48 @@ class StepperItem extends KeyDownHandledMixin(KeyToActionMixin(TabIndexMixin(Dis
   stepNumber?: number;
 
   /**
+   * Drives the grow leg of the status indicator pulse. Reflected so the transition is expressed in CSS and
+   * observable in tests.
+   *
+   * @internal
+   */
+  @property({ type: String, attribute: DATA_PULSE_STEP, reflect: true })
+  private pulseStep?: PulseStep;
+
+  /**
+   * @internal
+   */
+  @query('[part="status-container"]')
+  private statusContainer!: HTMLElement | null;
+
+  /**
+   * @internal
+   */
+  private pulseTimer?: number;
+
+  /**
+   * @internal
+   */
+  private reducedMotionQuery?: MediaQueryList;
+
+  /**
    * @internal
    */
   private readonly stepperContext = providerUtils.consume({ host: this, context: Stepper.Context });
+
+  /**
+   * Settles the pulse once the grow leg finishes. The shrink leg back to rest also fires `transitionend`,
+   * which is ignored because the step has already been cleared.
+   *
+   * @internal
+   */
+  private readonly handleTransitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName !== 'transform' || this.pulseStep !== PULSE_STEP.GROW) {
+      return;
+    }
+
+    this.settlePulse();
+  };
 
   override willUpdate(changedProperties: Map<string, unknown>): void {
     super.willUpdate(changedProperties);
@@ -97,6 +149,19 @@ class StepperItem extends KeyDownHandledMixin(KeyToActionMixin(TabIndexMixin(Dis
   override connectedCallback(): void {
     super.connectedCallback();
     this.role = ROLE.LISTITEM;
+    this.reducedMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY);
+    this.statusContainer?.addEventListener('transitionend', this.handleTransitionEnd);
+  }
+
+  override disconnectedCallback(): void {
+    this.clearPulseTimer();
+    this.statusContainer?.removeEventListener('transitionend', this.handleTransitionEnd);
+    super.disconnectedCallback();
+  }
+
+  protected override firstUpdated(changedProperties: PropertyValues<StepperItem>): void {
+    super.firstUpdated(changedProperties);
+    this.statusContainer?.addEventListener('transitionend', this.handleTransitionEnd);
   }
 
   constructor() {
@@ -173,6 +238,72 @@ class StepperItem extends KeyDownHandledMixin(KeyToActionMixin(TabIndexMixin(Dis
     }
   }
 
+  private clearPulseTimer(): void {
+    if (this.pulseTimer !== undefined) {
+      window.clearTimeout(this.pulseTimer);
+      this.pulseTimer = undefined;
+    }
+  }
+
+  private prefersReducedMotion(): boolean {
+    return this.reducedMotionQuery?.matches ?? window.matchMedia(REDUCED_MOTION_QUERY).matches;
+  }
+
+  /**
+   * Motion tokens are absent unless an ancestor carries the animation scope class, for example `mdc-motionprovider`.
+   */
+  private areMotionTokensAvailable(): boolean {
+    return Boolean(getComputedStyle(this).getPropertyValue('--mds-transition-grow-shrink').trim());
+  }
+
+  private shouldSkipPulse(): boolean {
+    return this.prefersReducedMotion() || !this.areMotionTokensAvailable();
+  }
+
+  private getTransformTransitionDurationMs(): number {
+    if (!this.statusContainer) {
+      return 0;
+    }
+
+    const { transitionProperty, transitionDuration } = getComputedStyle(this.statusContainer);
+    const properties = transitionProperty.split(',');
+    const durations = transitionDuration.split(',').map((duration, index) => {
+      const property = properties[index]?.trim();
+      const appliesToTransform = property === 'transform' || property === 'all' || properties.length === 1;
+      return appliesToTransform ? parseDurationToMs(duration) : 0;
+    });
+
+    return Math.max(0, ...durations);
+  }
+
+  private settlePulse(): void {
+    this.clearPulseTimer();
+    this.pulseStep = undefined;
+  }
+
+  /**
+   * Grows the status indicator, then returns it to rest once the grow leg completes. `transitionend` drives the
+   * handoff; the timer covers cases where no transition runs and no event is dispatched.
+   */
+  private startPulse(): void {
+    this.clearPulseTimer();
+    this.pulseStep = PULSE_STEP.GROW;
+
+    requestAnimationFrame(() => {
+      if (this.pulseStep !== PULSE_STEP.GROW) {
+        return;
+      }
+
+      const duration = this.getTransformTransitionDurationMs();
+      if (duration === 0) {
+        this.settlePulse();
+        return;
+      }
+
+      this.pulseTimer = window.setTimeout(() => this.settlePulse(), duration);
+    });
+  }
+
   /**
    * Renders the status icon based on the current status of the stepper item.
    * - If the status is `completed`, it renders a check icon.
@@ -235,6 +366,22 @@ class StepperItem extends KeyDownHandledMixin(KeyToActionMixin(TabIndexMixin(Dis
         this.removeAttribute('aria-disabled');
       }
     }
+  }
+
+  protected override updated(changedProperties: PropertyValues<StepperItem>): void {
+    super.updated(changedProperties);
+
+    // An undefined previous value marks the first render, where the step has not progressed and must not pulse.
+    if (!changedProperties.has('status') || changedProperties.get('status') === undefined) {
+      return;
+    }
+
+    if (this.shouldSkipPulse()) {
+      this.settlePulse();
+      return;
+    }
+
+    this.startPulse();
   }
 
   public override render() {

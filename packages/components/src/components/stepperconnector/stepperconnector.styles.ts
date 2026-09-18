@@ -12,9 +12,11 @@ const styles = css`
     width: 100%;
     height: 0.0625rem;
     background: var(--mdc-stepperconnector-incomplete-background);
+    transition: var(--mds-transition-background-color);
   }
   :host([status='complete'])::part(connector) {
     background: var(--mdc-stepperconnector-complete-background);
+    transition: var(--mds-transition-background-color);
   }
   :host([orientation='vertical'])::part(connector) {
     width: 0.0625rem;

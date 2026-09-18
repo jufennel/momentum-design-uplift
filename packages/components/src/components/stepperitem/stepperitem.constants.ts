@@ -27,4 +27,10 @@ const DEFAULT = {
   STATUS: STATUS.NOT_STARTED,
 };
 
-export { TAG_NAME, VARIANT, STATUS, DEFAULT, STATUS_ICON };
+const PULSE_STEP = {
+  GROW: 'grow',
+} as const;
+
+const DATA_PULSE_STEP = 'data-pulse-step';
+
+export { TAG_NAME, VARIANT, STATUS, DEFAULT, STATUS_ICON, PULSE_STEP, DATA_PULSE_STEP };
