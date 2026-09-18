@@ -105,6 +105,25 @@ Composition guidance:
 
 The host dispatches `toggle` (`event.detail = { expanded }`) when the grabber is clicked, and `activechange` when a nested `mdc-navmenuitem`'s active state changes.
 
+### Motion
+
+For `flexible` and `flexible-on-hover`, expanding the rail transitions its
+width with the fast duration and entrance easing motion tokens. Collapsing uses
+the instant duration and exit easing tokens. The existing expanded and
+collapsed width custom properties remain the transition endpoints.
+
+In dropdown mode, opening a `div[data-trigger]` panel combines
+`--mds-transition-expand` with `--mds-transition-fade-in`; closing combines
+`--mds-transition-collapse` with `--mds-transition-fade-out`. After the close
+motion finishes (or immediately under reduced motion), the panel uses
+`display: none` so nested items are not exposed to assistive technology. The
+component manages `data-open` / `data-closing` on the panel together with the
+parent navmenuitem's `aria-expanded` state.
+
+With `prefers-reduced-motion: reduce` or when motion tokens are unavailable,
+rail and dropdown state changes apply without a transition. Flyout
+`mdc-menupopover` motion is unchanged.
+
 ### Limitations
 
 - **Fixed variants lock expansion** — for `fixed-collapsed` and `fixed-expanded`, `expanded` is hard-set internally and cannot be changed by the user or consumer.

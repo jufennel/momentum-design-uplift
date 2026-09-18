@@ -31,31 +31,44 @@ const styles = [
       height: 2.5rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
       padding: 0.5rem;
       color: var(--mdc-navmenuitem-color);
       border-radius: 0.5rem;
       cursor: pointer;
+
+      transition: var(--mds-transition-background-color);
     }
 
     :host::part(icon-container) {
+      display: grid;
+      flex-shrink: 0;
+      place-items: center;
       position: relative;
     }
 
-    :host([active]:not([cannot-activate]))::part(regular-icon) {
-      display: none;
-    }
-
-    :host([active]:not([cannot-activate]))::part(filled-icon) {
-      display: block;
+    :host::part(regular-icon),
+    :host::part(filled-icon) {
+      grid-area: 1 / 1;
     }
 
     :host::part(regular-icon) {
-      display: block;
+      opacity: 1;
+      transition: var(--mds-transition-fade-in);
     }
 
     :host::part(filled-icon) {
-      display: none;
+      opacity: 0;
+      transition: var(--mds-transition-fade-out);
+    }
+
+    :host([active]:not([cannot-activate]))::part(regular-icon) {
+      opacity: 0;
+      transition: var(--mds-transition-fade-out);
+    }
+
+    :host([active]:not([cannot-activate]))::part(filled-icon) {
+      opacity: 1;
+      transition: var(--mds-transition-fade-in);
     }
 
     :host([in-menupopover]),
@@ -76,6 +89,11 @@ const styles = [
       );
 
       margin-inline-start: var(--mdc-navmenuitem-in-sidenav-expanded-margin-left);
+      transition:
+        width var(--mds-motion-duration-fast) var(--mds-motion-easing-entrance) var(--mds-motion-delay-none),
+        margin-inline-start var(--mds-motion-duration-fast) var(--mds-motion-easing-entrance)
+          var(--mds-motion-delay-none),
+        var(--mds-transition-background-color);
     }
 
     :host(:not([show-label]):not([in-menupopover])) {
@@ -86,6 +104,11 @@ const styles = [
       );
 
       margin-inline-start: var(--mdc-navmenuitem-in-sidenav-collapsed-margin-left);
+      transition:
+        width var(--mds-motion-duration-instant) var(--mds-motion-easing-exit) var(--mds-motion-delay-none),
+        margin-inline-start var(--mds-motion-duration-instant) var(--mds-motion-easing-exit)
+          var(--mds-motion-delay-none),
+        var(--mds-transition-background-color);
     }
 
     :host([active]) {
@@ -127,7 +150,8 @@ const styles = [
       width: 0.25rem;
       height: 1rem;
       pointer-events: none;
-      visibility: hidden;
+      opacity: 0;
+      transition: var(--mds-transition-fade-out);
     }
 
     :host([show-label]:dir(ltr))::before {
@@ -151,7 +175,8 @@ const styles = [
     }
 
     :host([active])::before {
-      visibility: visible;
+      opacity: 1;
+      transition: var(--mds-transition-fade-in);
     }
 
     :host([disabled])::before {
@@ -159,10 +184,19 @@ const styles = [
     }
 
     :host::part(text-container) {
+      min-width: 0;
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      opacity: 1;
+      transition: var(--mds-transition-text-change), var(--mds-transition-fade-in);
+    }
+
+    :host(:not([show-label]))::part(text-container) {
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--mds-transition-text-change), var(--mds-transition-fade-out);
     }
 
     :host(:dir(ltr))::part(badge) {
@@ -199,6 +233,22 @@ const styles = [
     :host mdc-badge {
       --mdc-badge-dot-width: 1rem;
       --mdc-badge-dot-height: 1rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :host,
+      :host([show-label]:not([in-menupopover])),
+      :host(:not([show-label]):not([in-menupopover])),
+      :host::part(regular-icon),
+      :host::part(filled-icon),
+      :host([active]:not([cannot-activate]))::part(regular-icon),
+      :host([active]:not([cannot-activate]))::part(filled-icon),
+      :host::before,
+      :host([active])::before,
+      :host::part(text-container),
+      :host(:not([show-label]))::part(text-container) {
+        transition: none;
+      }
     }
 
     @media (forced-colors: active) {

@@ -79,6 +79,19 @@ Choose one submenu style per navigation tree, not both. Prefer flyout submenus t
 
 **Note:** the component emits `click`, `keydown`, `keyup`, `focus`, and `activechange` (`detail: { navId, active }`, after a non-disabled click that did not set `cannot-activate`).
 
+### Motion
+
+Rest, hover, and active state changes use Momentum transition tokens. The host
+background uses `--mds-transition-background-color`, label emphasis uses
+`--mds-transition-text-change`, and the regular/filled icon pair and active
+notch use `--mds-transition-fade-in` and `--mds-transition-fade-out`.
+
+The regular and filled icons remain mounted while their opacity changes, so
+active-state changes do not produce a hard icon swap. Dropdown panels stay in
+the layout through collapse motion, then `display: none` after that motion
+ends. With `prefers-reduced-motion: reduce` or when motion tokens are
+unavailable, these changes apply without a transition.
+
 ### Limitations
 
 - **Side-navigation only** — spacing, collapse, and active-state logic are tuned for `mdc-sidenavigation`/`mdc-menubar`; outside that context the item does not manage itself. Use `mdc-link` or `mdc-button` elsewhere.

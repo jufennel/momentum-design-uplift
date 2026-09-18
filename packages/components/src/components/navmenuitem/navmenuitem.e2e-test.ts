@@ -686,4 +686,50 @@ test.describe('NavMenuItem Feature Scenarios', () => {
       });
     });
   });
+
+  test('applies state motion tokens and honors reduced motion', async ({ componentsPage }) => {
+    const navMenuItem = await setup({
+      componentsPage,
+      label: primaryLabel,
+      'icon-name': iconName,
+      'nav-id': navId,
+      'show-label': true,
+    });
+    await componentsPage.waitForPendingIcons();
+
+    const transitionProperties = await navMenuItem.evaluate(element => {
+      const regularIcon = element.shadowRoot?.querySelector('[part="regular-icon"]');
+      const filledIcon = element.shadowRoot?.querySelector('[part="filled-icon"]');
+      const text = element.shadowRoot?.querySelector('[part="text-container"]');
+
+      return {
+        host: getComputedStyle(element).transitionProperty,
+        regularIcon: getComputedStyle(regularIcon!).transitionProperty,
+        filledIcon: getComputedStyle(filledIcon!).transitionProperty,
+        text: getComputedStyle(text!).transitionProperty,
+        notch: getComputedStyle(element, '::before').transitionProperty,
+      };
+    });
+
+    expect(transitionProperties.host).toContain('background-color');
+    expect(transitionProperties.regularIcon).toContain('opacity');
+    expect(transitionProperties.filledIcon).toContain('opacity');
+    expect(transitionProperties.text).toContain('font-weight');
+    expect(transitionProperties.notch).toContain('opacity');
+
+    await componentsPage.page.emulateMedia({ reducedMotion: 'reduce' });
+    const reducedMotionDurations = await navMenuItem.evaluate(element => {
+      const regularIcon = element.shadowRoot?.querySelector('[part="regular-icon"]');
+      const text = element.shadowRoot?.querySelector('[part="text-container"]');
+
+      return {
+        host: getComputedStyle(element).transitionDuration,
+        regularIcon: getComputedStyle(regularIcon!).transitionDuration,
+        text: getComputedStyle(text!).transitionDuration,
+        notch: getComputedStyle(element, '::before').transitionDuration,
+      };
+    });
+
+    expect(Object.values(reducedMotionDurations).every(duration => duration === '0s')).toBe(true);
+  });
 });

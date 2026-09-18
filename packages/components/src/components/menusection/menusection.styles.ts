@@ -1,5 +1,7 @@
 import { css } from 'lit';
 
+import dropdownPanelStyles from '../sidenavigation/sidenavigation.dropdown.styles';
+
 const styles = css`
   :host {
     --mdc-menusection-divider-margin-block: 0.25rem;
@@ -23,4 +25,4 @@ const styles = css`
   }
 `;
 
-export default [styles];
+export default [styles, dropdownPanelStyles];

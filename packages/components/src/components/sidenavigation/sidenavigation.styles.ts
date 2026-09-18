@@ -18,10 +18,14 @@ const styles = css`
 
   :host([expanded]) {
     width: var(--mdc-sidenavigation-expanded-width);
+    transition: width var(--mds-motion-duration-fast) var(--mds-motion-easing-entrance)
+      var(--mds-motion-delay-none);
   }
 
   :host(:not([expanded])) {
     width: var(--mdc-sidenavigation-collapsed-width);
+    transition: width var(--mds-motion-duration-instant) var(--mds-motion-easing-exit)
+      var(--mds-motion-delay-none);
   }
 
   :host::part(side-navigation-container) {
@@ -95,6 +99,7 @@ const styles = css`
     width: 100%;
     gap: 0.5rem;
     border-radius: 1.25rem;
+    overflow: hidden;
   }
 
   :host([expanded]:dir(ltr))::part(brand-logo-container) {
@@ -120,6 +125,18 @@ const styles = css`
     aspect-ratio: 1 / 1;
   }
 
+  :host::part(footer-text) {
+    min-width: 0;
+    opacity: 1;
+    transition: var(--mds-transition-fade-in);
+  }
+
+  :host(:not([expanded]))::part(footer-text) {
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--mds-transition-fade-out);
+  }
+
   :host::part(separator) {
     flex-shrink: 0;
     margin-bottom: 0.75rem;
@@ -137,6 +154,15 @@ const styles = css`
   :host([data-grabber-visible][variant='flexible-on-hover'])::part(vertical-divider),
   :host([data-grabber-visible][variant='flexible-on-hover'])::part(vertical-divider-button) {
     opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :host([expanded]),
+    :host(:not([expanded])),
+    :host::part(footer-text),
+    :host(:not([expanded]))::part(footer-text) {
+      transition: none;
+    }
   }
 `;
 

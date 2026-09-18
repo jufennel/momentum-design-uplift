@@ -220,6 +220,23 @@ class NavMenuItem extends MenuItem {
   @state()
   private cachedBadgeType?: BadgeType;
 
+  /** @internal */
+  private dropdownCloseTimer?: number;
+
+  /** @internal */
+  private dropdownCloseScheduled = false;
+
+  /** @internal */
+  private dropdownCloseTarget?: HTMLElement;
+
+  /** @internal */
+  private readonly handleDropdownCloseTransitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName !== 'grid-template-rows' || event.target !== event.currentTarget) {
+      return;
+    }
+    this.finishDropdownClose();
+  };
+
   /**
    * @internal
    */
@@ -247,6 +264,7 @@ class NavMenuItem extends MenuItem {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.clearDropdownClose();
     this.removeTooltip();
   }
 
@@ -446,16 +464,11 @@ class NavMenuItem extends MenuItem {
    * @internal
    */
   private toggleDropdown(): void {
-    const dropdownContainer = this.getDropdownContainer();
-    if (!dropdownContainer) return;
-
-    this.dropdownOpen = !this.dropdownOpen;
-    dropdownContainer.style.display = this.dropdownOpen ? 'flex' : 'none';
     if (this.dropdownOpen) {
-      this.setAttribute('aria-expanded', 'true');
-    } else {
-      this.removeAttribute('aria-expanded');
+      this.closeDropdown();
+      return;
     }
+    this.openDropdown();
   }
 
   /**
@@ -465,8 +478,14 @@ class NavMenuItem extends MenuItem {
     if (this.dropdownOpen) return;
 
     const dropdownContainer = this.getDropdownContainer();
+    this.clearDropdownClose();
     if (dropdownContainer) {
-      dropdownContainer.style.display = 'flex';
+      if (!dropdownContainer.hasAttribute('data-open') && !dropdownContainer.hasAttribute('data-closing')) {
+        dropdownContainer.setAttribute('data-closing', '');
+        void dropdownContainer.offsetHeight;
+      }
+      dropdownContainer.removeAttribute('data-closing');
+      dropdownContainer.setAttribute('data-open', '');
     }
     this.dropdownOpen = true;
     this.setAttribute('aria-expanded', 'true');
@@ -479,11 +498,77 @@ class NavMenuItem extends MenuItem {
     if (!this.dropdownOpen) return;
 
     const dropdownContainer = this.getDropdownContainer();
-    if (dropdownContainer) {
-      dropdownContainer.style.display = 'none';
-    }
     this.dropdownOpen = false;
     this.removeAttribute('aria-expanded');
+    if (!dropdownContainer) return;
+
+    if (this.prefersReducedMotion()) {
+      dropdownContainer.removeAttribute('data-open');
+      dropdownContainer.removeAttribute('data-closing');
+      return;
+    }
+
+    dropdownContainer.setAttribute('data-closing', '');
+    dropdownContainer.removeAttribute('data-open');
+    this.scheduleDropdownClose(dropdownContainer);
+  }
+
+  private prefersReducedMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  private getCollapseDurationMs(element: Element): number {
+    const durations = getComputedStyle(element).transitionDuration.split(',');
+    const parsed = durations.map(duration => {
+      const trimmed = duration.trim();
+      if (trimmed.endsWith('ms')) {
+        return Number.parseFloat(trimmed);
+      }
+      if (trimmed.endsWith('s')) {
+        return Number.parseFloat(trimmed) * 1000;
+      }
+      return 0;
+    });
+    return Math.max(0, ...parsed);
+  }
+
+  private clearDropdownClose(): void {
+    this.dropdownCloseScheduled = false;
+    if (this.dropdownCloseTimer !== undefined) {
+      window.clearTimeout(this.dropdownCloseTimer);
+      this.dropdownCloseTimer = undefined;
+    }
+    this.dropdownCloseTarget?.removeEventListener('transitionend', this.handleDropdownCloseTransitionEnd);
+    this.dropdownCloseTarget = undefined;
+  }
+
+  private finishDropdownClose(): void {
+    const container = this.dropdownCloseTarget;
+    this.clearDropdownClose();
+    if (this.dropdownOpen) return;
+    container?.removeAttribute('data-closing');
+  }
+
+  private scheduleDropdownClose(container: HTMLElement): void {
+    if (this.dropdownCloseScheduled) {
+      return;
+    }
+    this.dropdownCloseScheduled = true;
+    this.dropdownCloseTarget = container;
+    container.addEventListener('transitionend', this.handleDropdownCloseTransitionEnd);
+    requestAnimationFrame(() => {
+      if (!this.dropdownCloseScheduled || this.dropdownOpen) {
+        return;
+      }
+      const delay = this.getCollapseDurationMs(container);
+      if (delay === 0) {
+        this.finishDropdownClose();
+        return;
+      }
+      this.dropdownCloseTimer = window.setTimeout(() => {
+        this.finishDropdownClose();
+      }, delay);
+    });
   }
 
   /**
@@ -559,18 +644,14 @@ class NavMenuItem extends MenuItem {
           : nothing}
         ${!this.showLabel ? this.renderBadge(this.showLabel) : nothing}
       </div>
-      ${this.showLabel
-        ? html`
-            <mdc-text
-              type=${this.active ? TYPE.BODY_MIDSIZE_BOLD : TYPE.BODY_MIDSIZE_MEDIUM}
-              tagname=${VALID_TEXT_TAGS.SPAN}
-              part="text-container"
-            >
-              ${this.label}
-            </mdc-text>
-            ${this.renderBadge(this.showLabel)}
-          `
-        : nothing}
+      <mdc-text
+        type=${this.active ? TYPE.BODY_MIDSIZE_BOLD : TYPE.BODY_MIDSIZE_MEDIUM}
+        tagname=${VALID_TEXT_TAGS.SPAN}
+        part="text-container"
+      >
+        ${this.label}
+      </mdc-text>
+      ${this.showLabel ? this.renderBadge(this.showLabel) : nothing}
       ${isDropdownMode && isDropDownParent
         ? html` <mdc-icon
             name=${ICON_NAME.DOWN_ARROW}

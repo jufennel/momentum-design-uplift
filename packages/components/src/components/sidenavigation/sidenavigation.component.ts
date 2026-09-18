@@ -356,12 +356,31 @@ class SideNavigation extends KeyToActionMixin(SideNavigationBase) {
   private hideAllDropdownContainers(): void {
     const containers = this.querySelectorAll<HTMLElement>('div[data-trigger]');
     containers.forEach(container => {
-      Object.assign(container.style, {
-        display: 'none',
-        flexDirection: 'column',
-        gap: '0.25rem',
-      });
+      this.ensureDropdownContent(container);
+      container.removeAttribute('data-open');
+      container.removeAttribute('data-closing');
     });
+  }
+
+  private ensureDropdownContent(container: HTMLElement): HTMLElement {
+    const existingContent = container.querySelector<HTMLElement>(':scope > [data-dropdown-content]');
+    if (existingContent) return existingContent;
+
+    const content = document.createElement('div');
+    content.setAttribute('data-dropdown-content', '');
+    Object.assign(content.style, {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.25rem',
+      minHeight: '0',
+      overflow: 'hidden',
+    });
+
+    while (container.firstChild) {
+      content.appendChild(container.firstChild);
+    }
+    container.appendChild(content);
+    return content;
   }
 
   /**
@@ -387,15 +406,18 @@ class SideNavigation extends KeyToActionMixin(SideNavigationBase) {
       popover.setAttribute('data-dynamic-popover', '');
       popover.setAttribute('placement', 'right-start');
 
+      const content = this.ensureDropdownContent(container);
+
       // Move children from div to menupopover
-      while (container.firstChild) {
-        popover.appendChild(container.firstChild);
+      while (content.firstChild) {
+        popover.appendChild(content.firstChild);
       }
 
       // Insert menupopover after the div
       container.after(popover);
 
-      // Hide the empty div
+      container.removeAttribute('data-open');
+      container.removeAttribute('data-closing');
       Object.assign(container.style, { display: 'none' });
     });
   }
@@ -415,13 +437,18 @@ class SideNavigation extends KeyToActionMixin(SideNavigationBase) {
       const container = this.querySelector<HTMLElement>(`div[data-trigger="${CSS.escape(triggerId)}"]`);
       if (!container) return;
 
+      const content = this.ensureDropdownContent(container);
+
       // Move children back from menupopover to div
       while (popover.firstChild) {
-        container.appendChild(popover.firstChild);
+        content.appendChild(popover.firstChild);
       }
 
       // Remove the dynamic menupopover
       popover.remove();
+      container.removeAttribute('data-open');
+      container.removeAttribute('data-closing');
+      container.style.removeProperty('display');
     });
   }
 
@@ -609,14 +636,12 @@ class SideNavigation extends KeyToActionMixin(SideNavigationBase) {
             ? html`
                 <div part="brand-logo-container">
                   <slot name="brand-logo"></slot>
-                  ${this.expanded
-                    ? html` <mdc-text
-                        type=${TYPE.BODY_MIDSIZE_MEDIUM}
-                        tagname=${VALID_TEXT_TAGS.SPAN}
-                        part="footer-text"
-                        >${this.footerText}</mdc-text
-                      >`
-                    : nothing}
+                  <mdc-text
+                    type=${TYPE.BODY_MIDSIZE_MEDIUM}
+                    tagname=${VALID_TEXT_TAGS.SPAN}
+                    part="footer-text"
+                    >${this.footerText}</mdc-text
+                  >
                 </div>
               `
             : nothing}

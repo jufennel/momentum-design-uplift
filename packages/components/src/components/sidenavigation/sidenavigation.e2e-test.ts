@@ -656,13 +656,15 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
     });
 
     await test.step('dropdown containers are initially hidden', async () => {
+      await expect(dropdownContainer1).not.toHaveAttribute('data-open');
       await expect(dropdownContainer1).toHaveCSS('display', 'none');
+      await expect(child1).not.toBeVisible();
     });
 
     await test.step('clicking parent opens dropdown inline', async () => {
       await parentItem1.click();
       await expect(parentItem1).toHaveAttribute('aria-expanded', 'true');
-      await expect(dropdownContainer1).toHaveCSS('display', 'flex');
+      await expect(dropdownContainer1).toHaveAttribute('data-open');
       await expect(child1).toBeVisible();
       await expect(child2).toBeVisible();
       await expect(child3).toBeVisible();
@@ -677,6 +679,7 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
 
     await test.step('clicking parent again closes dropdown', async () => {
       await parentItem1.click();
+      await expect(dropdownContainer1).not.toHaveAttribute('data-open');
       await expect(dropdownContainer1).toHaveCSS('display', 'none');
       await expect(parentItem1).not.toHaveAttribute('aria-expanded');
     });
@@ -684,7 +687,7 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
     await test.step('selecting a child marks only the child as active, not parent', async () => {
       // Open the dropdown
       await parentItem1.click();
-      await expect(dropdownContainer1).toHaveCSS('display', 'flex');
+      await expect(dropdownContainer1).toHaveAttribute('data-open');
 
       // Click a child item
       await child2.click();
@@ -701,6 +704,7 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
     await test.step('closing dropdown with active child shows parent as active', async () => {
       // Close the dropdown using escape key
       await componentsPage.page.keyboard.press('Escape');
+      await expect(dropdownContainer1).not.toHaveAttribute('data-open');
       await expect(dropdownContainer1).toHaveCSS('display', 'none');
 
       // Parent should now show as active because it has an active child
@@ -724,7 +728,7 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
     await test.step('re-opening dropdown removes active from parent', async () => {
       // Open the dropdown again
       await parentItem1.click();
-      await expect(dropdownContainer1).toHaveCSS('display', 'flex');
+      await expect(dropdownContainer1).toHaveAttribute('data-open');
 
       // Parent should lose active styling when dropdown is open
       await expect(parentItem1).not.toHaveAttribute('active');
@@ -751,7 +755,7 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
       await parentItem1.focus();
       await componentsPage.page.keyboard.press('ArrowDown');
       // Dropdown should remain closed
-      await expect(dropdownContainer1).toHaveCSS('display', 'none');
+      await expect(dropdownContainer1).not.toHaveAttribute('data-open');
       await expect(parentItem1).not.toHaveAttribute('aria-expanded', 'true');
     });
 
@@ -777,6 +781,7 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
       await expect(child2).toBeFocused();
 
       await componentsPage.page.keyboard.press('Escape');
+      await expect(dropdownContainer1).not.toHaveAttribute('data-open');
       await expect(dropdownContainer1).toHaveCSS('display', 'none');
       await expect(parentItem1).toBeFocused();
       await expect(parentItem1).not.toHaveAttribute('aria-expanded');
@@ -820,7 +825,7 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
 
     await test.step('open dropdown and select a child', async () => {
       await parentItem1.click();
-      await expect(dropdownContainer1).toHaveCSS('display', 'flex');
+      await expect(dropdownContainer1).toHaveAttribute('data-open');
       const child1 = dropdownContainer1.locator('mdc-navmenuitem').first();
       await child1.click();
       await expect(child1).toHaveAttribute('aria-current', 'page');
@@ -859,11 +864,64 @@ test.describe.parallel('SideNavigation (Dropdown mode)', () => {
       await expect(childrenInContainer).toHaveCount(3);
       const trigger = sidenav.locator('mdc-navmenuitem#dropdown-trigger-1');
       await trigger.click();
-      await expect(dropdownContainer1).toHaveCSS('display', 'flex');
+      await expect(dropdownContainer1).toHaveAttribute('data-open');
       await expect(dropdownContainer1.locator('mdc-navmenuitem').first()).toBeVisible();
 
       await componentsPage.visualRegression.takeScreenshot('sidenavigation-dropdown-re-expanded');
       await componentsPage.accessibility.checkForA11yViolations('sidenavigation-dropdown-re-expanded');
     });
+  });
+
+  test('applies rail and dropdown motion tokens and honors reduced motion', async ({ componentsPage }) => {
+    const { sidenav, parentItem1, dropdownContainer1, toggleButton } = await setupDropdown(
+      componentsPage,
+      'flexible',
+    );
+
+    const expandedRailMotion = await sidenav.evaluate(element => {
+      const styles = getComputedStyle(element);
+      const toMilliseconds = (duration: string) =>
+        duration.endsWith('ms') ? Number.parseFloat(duration) : Number.parseFloat(duration) * 1000;
+      return {
+        property: styles.transitionProperty,
+        duration: toMilliseconds(styles.transitionDuration),
+        expectedDuration: toMilliseconds(styles.getPropertyValue('--mds-motion-duration-fast').trim()),
+        easing: styles.transitionTimingFunction,
+        expectedEasing: styles.getPropertyValue('--mds-motion-easing-entrance').trim(),
+      };
+    });
+    expect(expandedRailMotion.property).toBe('width');
+    expect(expandedRailMotion.duration).toBe(expandedRailMotion.expectedDuration);
+    expect(expandedRailMotion.easing).toBe(expandedRailMotion.expectedEasing);
+
+    await parentItem1.click();
+    const dropdownProperties = await dropdownContainer1.evaluate(element => getComputedStyle(element).transitionProperty);
+    expect(dropdownProperties).toContain('grid-template-rows');
+    expect(dropdownProperties).toContain('opacity');
+
+    await toggleButton.click();
+    const collapsedRailMotion = await sidenav.evaluate(element => {
+      const styles = getComputedStyle(element);
+      const toMilliseconds = (duration: string) =>
+        duration.endsWith('ms') ? Number.parseFloat(duration) : Number.parseFloat(duration) * 1000;
+      return {
+        duration: toMilliseconds(styles.transitionDuration),
+        expectedDuration: toMilliseconds(styles.getPropertyValue('--mds-motion-duration-instant').trim()),
+        easing: styles.transitionTimingFunction,
+        expectedEasing: styles.getPropertyValue('--mds-motion-easing-exit').trim(),
+      };
+    });
+    expect(collapsedRailMotion.duration).toBe(collapsedRailMotion.expectedDuration);
+    expect(collapsedRailMotion.easing).toBe(collapsedRailMotion.expectedEasing);
+
+    await componentsPage.page.emulateMedia({ reducedMotion: 'reduce' });
+    await toggleButton.click();
+    await parentItem1.click();
+
+    const reducedMotionDurations = await Promise.all([
+      sidenav.evaluate(element => getComputedStyle(element).transitionDuration),
+      dropdownContainer1.evaluate(element => getComputedStyle(element).transitionDuration),
+    ]);
+    expect(reducedMotionDurations.every(duration => duration === '0s')).toBe(true);
   });
 });
