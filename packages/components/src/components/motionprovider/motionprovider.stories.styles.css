@@ -46,3 +46,8 @@
 .motionDemoCalendar {
   width: fit-content;
 }
+
+.motionDemoSidenavigation {
+  height: 20rem;
+  max-width: 16rem;
+}

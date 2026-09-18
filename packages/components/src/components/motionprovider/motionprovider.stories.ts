@@ -19,8 +19,15 @@ import '../cardcheckbox';
 import '../filterchip';
 import '../input';
 import '../progressbar';
+import '../sidenavigation';
+import '../navmenuitem';
+import '../menusection';
+import '../icon';
+import '../stepperitem';
+import '../toggle';
 import { hideAllControls } from '../../../config/storybook/utils';
 import { ROLE } from '../../utils/roles';
+import { STATUS } from '../stepperitem/stepperitem.constants';
 
 const MENU_TRIGGER_ID = 'motion-demo-menu-trigger';
 const PROGRESSBAR_SELECTOR = '[data-motion-demo="progressbar"]';
@@ -261,6 +268,48 @@ const render: StoryFn = (args, { updateArgs }) => {
           </section>
 
           <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Side navigation</h3>
+            <p class="motionDemoSectionHint">
+              Expand and collapse the rail to see width and label fade transitions. Turn motion off to compare instant
+              state changes.
+            </p>
+            <div class="motionDemoSidenavigation">
+              <mdc-sidenavigation
+                expanded
+                variant="flexible"
+                grabber-btn-aria-label="Toggle side navigation"
+                footer-text="Example"
+              >
+                <mdc-menusection slot="scrollable-menubar" show-divider>
+                  <mdc-navmenuitem icon-name="chat-bold" nav-id="1" label="Messaging"></mdc-navmenuitem>
+                  <mdc-navmenuitem icon-name="meetings-bold" nav-id="2" label="Meetings"></mdc-navmenuitem>
+                  <mdc-navmenuitem icon-name="audio-call-bold" nav-id="3" label="Calling"></mdc-navmenuitem>
+                </mdc-menusection>
+                <mdc-menusection slot="fixed-menubar">
+                  <mdc-navmenuitem icon-name="settings-bold" nav-id="4" label="Settings"></mdc-navmenuitem>
+                </mdc-menusection>
+                <mdc-icon slot="brand-logo" name="apple-bold" aria-label="Brand logo"></mdc-icon>
+              </mdc-sidenavigation>
+            </div>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Stepperitem</h3>
+            <p class="motionDemoSectionHint">
+              Use the status control to see color, scale, and label transitions. Turn motion off to compare instant
+              state changes.
+            </p>
+            <mdc-stepperitem
+              variant="inline"
+              status="${args.status}"
+              label="Review details"
+              help-text="Confirm the project settings"
+              step-number="1"
+              aria-label="Step 1: Review details, ${args.status}"
+            ></mdc-stepperitem>
+          </section>
+
+          <section class="motionDemoSection">
             <h3 class="motionDemoSectionTitle">Tab list Primary</h3>
             <p class="motionDemoSectionHint">Switch tabs to see indicator and text transitions.</p>
             <mdc-tablist
@@ -287,6 +336,17 @@ const render: StoryFn = (args, { updateArgs }) => {
               <mdc-tab text="Messages" tab-id="messages-tab" icon-name="chat-bold" variant="line"></mdc-tab>
               <mdc-tab text="Settings" tab-id="settings-tab" icon-name="settings-bold" variant="line"></mdc-tab>
             </mdc-tablist>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Toggle</h3>
+            <p class="motionDemoSectionHint">
+              Click the toggle to see track, knob, and icon transitions. Turn motion off to compare instant state
+              changes.
+            </p>
+            <div role="${ROLE.MAIN}">
+              <mdc-toggle label="Enable notifications"></mdc-toggle>
+            </div>
           </section>
         </div>
       </mdc-motionprovider>
@@ -345,6 +405,11 @@ const meta: Meta = {
     'active-tab-id': {
       control: false,
     },
+    status: {
+      control: { type: 'select' },
+      options: Object.values(STATUS),
+      description: 'Stepperitem status. Change it to see status-container color and pulse transitions.',
+    },
     ...hideAllControls(true),
   },
 };
@@ -355,5 +420,6 @@ export const Example: StoryObj = {
   args: {
     motionEnabled: true,
     'active-tab-id': 'calls-tab',
+    status: STATUS.CURRENT,
   },
 };

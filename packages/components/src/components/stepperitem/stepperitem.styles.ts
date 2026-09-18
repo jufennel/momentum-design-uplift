@@ -49,7 +49,7 @@ const styles = css`
   }
 
   :host([data-pulse-step='grow'])::part(status-container) {
-    transform: scale(0.8);
+    transform: scale(0.9);
   }
 
   :host::part(step-number) {
