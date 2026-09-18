@@ -124,6 +124,11 @@ With `prefers-reduced-motion: reduce` or when motion tokens are unavailable,
 rail and dropdown state changes apply without a transition. Flyout
 `mdc-menupopover` motion is unchanged.
 
+Collapsed nav item labels stay in layout while hidden. The scrollable section
+uses `overflow-x: hidden`, so in-flight width changes and focus rings can clip.
+Default side and top padding is the intended clip budget; do not rely on
+visible overflow during the width tween.
+
 ### Limitations
 
 - **Fixed variants lock expansion** — for `fixed-collapsed` and `fixed-expanded`, `expanded` is hard-set internally and cannot be changed by the user or consumer.

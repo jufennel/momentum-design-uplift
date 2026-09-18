@@ -87,10 +87,12 @@ background uses `--mds-transition-background-color`, label emphasis uses
 notch use `--mds-transition-fade-in` and `--mds-transition-fade-out`.
 
 The regular and filled icons remain mounted while their opacity changes, so
-active-state changes do not produce a hard icon swap. Dropdown panels stay in
-the layout through collapse motion, then `display: none` after that motion
-ends. With `prefers-reduced-motion: reduce` or when motion tokens are
-unavailable, these changes apply without a transition.
+active-state changes do not produce a hard icon swap. Collapsed labels stay
+mounted and fade with opacity/visibility rather than unmounting or collapsing
+flex basis, so expand does not pop the text in after the width tween. Dropdown
+panels stay in the layout through collapse motion, then `display: none` after
+that motion ends. With `prefers-reduced-motion: reduce` or when motion tokens
+are unavailable, these changes apply without a transition.
 
 ### Limitations
 
