@@ -23,7 +23,9 @@ import type { ToggleSize } from './statictoggle.types';
  * @cssproperty --mdc-statictoggle-icon-background-color - Icon background color of the static toggle.
  *
  * @csspart slider - The slider part of the toggle.
- * @csspart toggle-icon - The icon part of the toggle.
+ * @csspart toggle-icon - The circular thumb that moves between toggle states.
+ * @csspart toggle-icon-unchecked - The icon displayed when the toggle is unchecked.
+ * @csspart toggle-icon-checked - The icon displayed when the toggle is checked.
  *
  * @slot - Default slot for slotted content (typically used by parent `mdc-toggle` for the checkbox input).
  */
@@ -63,12 +65,22 @@ class StaticToggle extends DisabledMixin(Component) {
     return html`
       <slot></slot>
       <div part="slider">
-        <mdc-icon
-          name="${this.checked ? ICON_NAME.CHECKED : ICON_NAME.UNCHECKED}"
-          part="toggle-icon"
-          length-unit="rem"
-          size="${ICON_SIZE_IN_REM[this.size]}"
-        ></mdc-icon>
+        <span part="toggle-icon">
+          <mdc-icon
+            name="${ICON_NAME.UNCHECKED}"
+            part="toggle-icon-unchecked"
+            length-unit="rem"
+            size="${ICON_SIZE_IN_REM[this.size]}"
+            aria-hidden="true"
+          ></mdc-icon>
+          <mdc-icon
+            name="${ICON_NAME.CHECKED}"
+            part="toggle-icon-checked"
+            length-unit="rem"
+            size="${ICON_SIZE_IN_REM[this.size]}"
+            aria-hidden="true"
+          ></mdc-icon>
+        </span>
       </div>
     `;
   }

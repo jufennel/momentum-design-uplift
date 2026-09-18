@@ -51,10 +51,10 @@ const attributeTestCases = async (componentsPage: ComponentsPage) => {
     await expect(toggle).toHaveAttribute('size', DEFAULTS.SIZE);
     await expect(toggle).toHaveAttribute('name');
     await expect(toggle).toHaveAttribute('value');
-    // test mdc-icon which is present inside mdc-toggle
-    const icon = componentsPage.page.locator('mdc-icon');
-    await icon.waitFor();
-    await expect(icon).toHaveAttribute('name', 'cancel-bold');
+    const uncheckedIcon = toggle.locator('mdc-icon[name="cancel-bold"]');
+    const checkedIcon = toggle.locator('mdc-icon[name="check-bold"]');
+    await expect(uncheckedIcon).toHaveCount(1);
+    await expect(checkedIcon).toHaveCount(1);
   });
 
   await test.step('should have label element when the label attribute is passed', async () => {
@@ -63,11 +63,10 @@ const attributeTestCases = async (componentsPage: ComponentsPage) => {
     await expect(label).toHaveText('Toggle label');
   });
 
-  await test.step('should have icon element with check-bold icon name when checked attribute is true', async () => {
+  await test.step('should expose the checked icon when checked attribute is true', async () => {
     await componentsPage.setAttributes(toggle, { checked: 'true' });
-    const icon = componentsPage.page.locator('mdc-icon');
-    await icon.waitFor();
-    await expect(icon).toHaveAttribute('name', 'check-bold');
+    await expect(toggle.locator('mdc-statictoggle')).toHaveAttribute('checked', '');
+    await expect(toggle.locator('mdc-icon[name="check-bold"]')).toHaveCount(1);
   });
 
   await test.step('should have mdc-text element when the help-text attribute is passed', async () => {
