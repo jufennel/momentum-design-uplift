@@ -251,8 +251,13 @@ class Toast extends FooterMixin(Component) {
         <div part="toast-content">
           ${this.renderHeader()}
           <slot name="toast-body-normal"></slot>
-          <div ?hidden="${!this.isDetailVisible}">
-            <slot name="toast-body-detailed"></slot>
+          <div
+            class="toast-body-detailed ${this.isDetailVisible ? 'expanded' : ''}"
+            aria-hidden="${!this.isDetailVisible}"
+          >
+            <div class="toast-body-detailed-inner">
+              <slot name="toast-body-detailed"></slot>
+            </div>
           </div>
         </div>
         <mdc-button

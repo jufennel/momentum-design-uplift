@@ -309,11 +309,12 @@ test.describe('Toast Feature Scenarios', () => {
 
         const bodySlot = toast.locator('mdc-text[slot="toast-body-normal"]');
         const detailedSlot = toast.locator('mdc-text[slot="toast-body-detailed"]');
+        const detailedBodyContainer = toast.locator('.toast-body-detailed');
         const showMoreBtn = toast.locator('mdc-button[part="footer-button-toggle"]');
 
         await expect(bodySlot).toContainText(normalBody);
         await expect(detailedSlot).toHaveText(detailedBody);
-        await expect(detailedSlot).not.toBeVisible();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'true');
         await expect(showMoreBtn).toBeVisible();
         await expect(showMoreBtn).toContainText(SHOW_MORE_TEXT);
       });
@@ -352,18 +353,80 @@ test.describe('Toast Feature Scenarios', () => {
 
         const toggleBtn = toast.locator('mdc-button[part="footer-button-toggle"]');
         const detailedSlot = toast.locator('mdc-text[slot="toast-body-detailed"]');
+        const detailedBodyContainer = toast.locator('.toast-body-detailed');
 
         await expect(toggleBtn.locator('mdc-icon[name="arrow-down-bold"]')).toBeVisible();
         await toggleBtn.click(); // expand
 
         await expect(detailedSlot).toBeVisible();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'false');
         await expect(toggleBtn).toContainText(SHOW_LESS_TEXT);
         await expect(toggleBtn.locator('mdc-icon[name="arrow-up-bold"]')).toBeVisible();
 
         await toggleBtn.click(); // collapse
-        await expect(detailedSlot).not.toBeVisible();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'true');
         await expect(toggleBtn).toContainText(SHOW_MORE_TEXT);
         await expect(toggleBtn.locator('mdc-icon[name="arrow-down-bold"]')).toBeVisible();
+      });
+
+      await test.step('User expands/collapses toast body instantly with reduced motion', async () => {
+        await componentsPage.page.emulateMedia({ reducedMotion: 'reduce' });
+
+        const toast = await setup({
+          componentsPage,
+          showMoreText: SHOW_MORE_TEXT,
+          showLessText: SHOW_LESS_TEXT,
+          children: `
+            <mdc-text tagname="span" slot="toast-body-detailed">This is detailed content.</mdc-text>
+          `,
+        });
+
+        const toggleBtn = toast.locator('mdc-button[part="footer-button-toggle"]');
+        const detailedBodyContainer = toast.locator('.toast-body-detailed');
+
+        await toggleBtn.click();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'false');
+        expect(await detailedBodyContainer.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThan(
+          0,
+        );
+
+        await toggleBtn.click();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'true');
+        expect(await detailedBodyContainer.evaluate(element => element.getBoundingClientRect().height)).toBe(0);
+
+        await componentsPage.page.emulateMedia({ reducedMotion: 'no-preference' });
+      });
+
+      await test.step('User expands/collapses toast body instantly without animation token scope', async () => {
+        await componentsPage.page.evaluate(() => {
+          document.body.classList.remove('mds-animation');
+        });
+
+        const toast = await setup({
+          componentsPage,
+          showMoreText: SHOW_MORE_TEXT,
+          showLessText: SHOW_LESS_TEXT,
+          children: `
+            <mdc-text tagname="span" slot="toast-body-detailed">This is detailed content.</mdc-text>
+          `,
+        });
+
+        const toggleBtn = toast.locator('mdc-button[part="footer-button-toggle"]');
+        const detailedBodyContainer = toast.locator('.toast-body-detailed');
+
+        await toggleBtn.click();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'false');
+        expect(await detailedBodyContainer.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThan(
+          0,
+        );
+
+        await toggleBtn.click();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'true');
+        expect(await detailedBodyContainer.evaluate(element => element.getBoundingClientRect().height)).toBe(0);
+
+        await componentsPage.page.evaluate(() => {
+          document.body.classList.add('mds-animation');
+        });
       });
     });
 
@@ -428,6 +491,7 @@ test.describe('Toast Feature Scenarios', () => {
 
         const toggleBtn = toast.locator('mdc-button[part="footer-button-toggle"]');
         const detailedSlot = toast.locator('mdc-text[slot="toast-body-detailed"]');
+        const detailedBodyContainer = toast.locator('.toast-body-detailed');
 
         await toggleBtn.focus();
         await componentsPage.visualRegression.takeScreenshot('mdc-toast', {
@@ -450,7 +514,7 @@ test.describe('Toast Feature Scenarios', () => {
         await componentsPage.accessibility.checkForA11yViolations('toast-expanded-view');
 
         await toggleBtn.press('Enter'); // collapse
-        await expect(detailedSlot).not.toBeVisible();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'true');
         await expect(toggleBtn.locator('mdc-icon[name="arrow-down-bold"]')).toBeVisible();
         await expect(toggleBtn).toContainText(SHOW_MORE_TEXT);
         await expect(toggleBtn).toBeFocused();
@@ -549,6 +613,7 @@ test.describe('Toast Feature Scenarios', () => {
 
         const toggleBtn = toast.locator('mdc-button[part="footer-button-toggle"]');
         const detailedSlot = toast.locator('mdc-text[slot="toast-body-detailed"]');
+        const detailedBodyContainer = toast.locator('.toast-body-detailed');
 
         await toggleBtn.focus();
         await componentsPage.visualRegression.takeScreenshot('mdc-toast', {
@@ -571,7 +636,7 @@ test.describe('Toast Feature Scenarios', () => {
         await componentsPage.accessibility.checkForA11yViolations(`toast-expanded-view-${headerTextDescription}`);
 
         await toggleBtn.press('Enter'); // collapse
-        await expect(detailedSlot).not.toBeVisible();
+        await expect(detailedBodyContainer).toHaveAttribute('aria-hidden', 'true');
         await expect(toggleBtn.locator('mdc-icon[name="arrow-down-bold"]')).toBeVisible();
         await expect(toggleBtn).toContainText(SHOW_MORE_TEXT);
         await expect(toggleBtn).toBeFocused();

@@ -76,6 +76,25 @@ const styles = css`
     -webkit-line-clamp: 6;
   }
 
+  .toast-body-detailed {
+    display: grid;
+    grid-template-rows: 0fr;
+    width: 100%;
+    opacity: 0;
+    transition: var(--mds-transition-collapse), var(--mds-transition-fade-out);
+  }
+
+  .toast-body-detailed.expanded {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition: var(--mds-transition-expand), var(--mds-transition-fade-in);
+  }
+
+  .toast-body-detailed-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
   :host::part(footer) {
     display: flex;
     justify-content: flex-end;
@@ -94,6 +113,13 @@ const styles = css`
 
   mdc-text::part(text) {
     margin: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toast-body-detailed,
+    .toast-body-detailed.expanded {
+      transition: none;
+    }
   }
 `;
 
