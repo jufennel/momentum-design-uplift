@@ -26,7 +26,7 @@ export const BrandvisualsTable = ({ brandvisuals }: Props) => {
     () => (
       <div className="brandvisualsGrid grid192">
         {Object.entries(brandvisuals).map(([key, path]) => {
-          const finalPath = path.replace(/^\.\/(?:png|svg)/, '/brand-visuals');
+          const finalPath = path.replace(/^\.\/(?:png|svg)/, `${import.meta.env.BASE_URL.replace(/\/$/, '')}/brand-visuals`);
           const backgroundClass = getBackgroundClass(key);
 
           return (

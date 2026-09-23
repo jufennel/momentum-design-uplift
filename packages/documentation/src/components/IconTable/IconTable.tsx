@@ -16,7 +16,7 @@ export const IconTable = ({ icons }: Props) => {
     () => (
       <div className="iconGrid">
         {Object.entries(icons).map(([key, path]) => {
-          const finalPath = `${path.replace('./svg', '/icons')}`;
+          const finalPath = path.replace('./svg', `${import.meta.env.BASE_URL.replace(/\/$/, '')}/icons`);
           return (
             <div className="iconWrapper">
               <img className={(!key.includes('colored') && 'icon') || ''} src={finalPath} />

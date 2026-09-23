@@ -27,7 +27,7 @@ export const IllustrationTable = ({ illustrations, size }: Props) => {
     () => (
       <div className={`illustrationGrid grid${size}`}>
         {Object.entries(illustrations).map(([key, path]) => {
-          const finalPath = `${path.replace('./svg', '/illustrations')}`;
+          const finalPath = `${path.replace('./svg', `${import.meta.env.BASE_URL.replace(/\/$/, '')}/illustrations`)}`;
           const isInverted = key.includes('default');
           return (
             <div className={isInverted

@@ -14,6 +14,11 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  PUBLIC_ALGOLIA_APP_ID: ${{ secrets.PUBLIC_ALGOLIA_APP_ID }}
+  PUBLIC_ALGOLIA_INDEX_NAME: ${{ secrets.PUBLIC_ALGOLIA_INDEX_NAME }}
+  PUBLIC_ALGOLIA_DOC_SEARCH: ${{ secrets.PUBLIC_ALGOLIA_DOC_SEARCH }}
+
 jobs:
   deploy:
     environment:
@@ -23,6 +28,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -36,8 +44,10 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Add .nojekyll
-        run: touch packages/documentation/dist/.nojekyll
+      - name: Prepare Pages artifact
+        run: |
+          touch packages/documentation/dist/.nojekyll
+          rm -f packages/documentation/dist/CNAME
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
