@@ -70,8 +70,7 @@ export default defineConfig({
     react(),
     mdx(),
   ],
-  site: 'https://jufennel.github.io',
-  base: '/momentum-design-uplift/',
+  site: 'https://momentum.design',
   markdown: {
     // Keep Astro's built-in remark plugins (remark-gfm for tables, etc.);
     // providing custom plugins otherwise replaces the default set in Astro 1.x.

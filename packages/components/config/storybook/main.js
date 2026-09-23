@@ -68,7 +68,7 @@ const config = {
   core: {
     disableTelemetry: true, // 👈 Disables telemetry
   },
-  async viteFinal(config, { configType }) {
+  async viteFinal(config) {
     // Merge custom configuration into the default config
     const { mergeConfig } = await import('vite');
 
@@ -76,7 +76,6 @@ const config = {
       // adding dynamic import to support dynamic icon import
       // in icon component
       plugins: [preferSourceComponentsInStorybook(), dynamicImport({})],
-      base: configType === 'PRODUCTION' ? '/momentum-design-uplift/storybook-static/' : config.base,
       server: {
         watch: {
           ignored: ['**/packages/components/dist/custom-elements.json'],
