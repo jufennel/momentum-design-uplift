@@ -8,8 +8,9 @@ type Props = {
 };
 
 const { name, link, disabled } = Astro.props as Props;
+const href = `${import.meta.env.BASE_URL}${link.replace(/^\//, '')}`;
 ---
 
-<a id={name} class="card" href={link} aria-disabled={disabled}>
+<a id={name} class="card" href={href} aria-disabled={disabled}>
   {name.replace('-', ' ')}
 </a>

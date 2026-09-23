@@ -6,7 +6,7 @@ layout: ../../../layouts/AssetsDetailLayout.astro
 import {Pagination} from '../../../components/IllustrationTable/IllustrationTable.tsx';
 import './shared-styles.css';
 
-<a class="backLink" href="/en/assets#illustrations">
+<a class="backLink" href={`${import.meta.env.BASE_URL}en/assets#illustrations`}>
   <span>&lt; Assets</span>
 </a>
 <h1 class="heading1">Illustrations</h1>
