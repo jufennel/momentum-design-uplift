@@ -25,6 +25,7 @@ import '../menusection';
 import '../icon';
 import '../stepperitem';
 import '../toggle';
+import '../toast';
 import { hideAllControls } from '../../../config/storybook/utils';
 import { ROLE } from '../../utils/roles';
 import { STATUS } from '../stepperitem/stepperitem.constants';
@@ -336,6 +337,29 @@ const render: StoryFn = (args, { updateArgs }) => {
               <mdc-tab text="Messages" tab-id="messages-tab" icon-name="chat-bold" variant="line"></mdc-tab>
               <mdc-tab text="Settings" tab-id="settings-tab" icon-name="settings-bold" variant="line"></mdc-tab>
             </mdc-tablist>
+          </section>
+
+          <section class="motionDemoSection">
+            <h3 class="motionDemoSectionTitle">Toast</h3>
+            <p class="motionDemoSectionHint">
+              Use Show more and Show less to see expand/collapse and fade transitions. Turn motion off to compare
+              instant state changes.
+            </p>
+            <mdc-toast
+              variant="success"
+              header-text="File uploaded"
+              header-tag-name="span"
+              close-button-aria-label="Close toast"
+              show-more-text="Show more"
+              show-less-text="Show less"
+            >
+              <mdc-text slot="toast-body-normal" tagname="span">Your file is ready to share.</mdc-text>
+              <mdc-text slot="toast-body-detailed" tagname="span">
+                The upload finished in the background. You can keep working while the file becomes available to others.
+              </mdc-text>
+              <mdc-button slot="footer-button-secondary">Undo</mdc-button>
+              <mdc-button slot="footer-button-primary">View file</mdc-button>
+            </mdc-toast>
           </section>
 
           <section class="motionDemoSection">
