@@ -13,6 +13,7 @@ import Avatar from './components/avatar';
 import AvatarButton from './components/avatarbutton';
 import Badge from './components/badge';
 import Brandvisual from './components/brandvisual';
+import BrandVisualProvider from './components/brandvisualprovider';
 import Bullet from './components/bullet';
 import Button from './components/button';
 import ButtonGroup from './components/buttongroup';
@@ -52,6 +53,7 @@ import MenuItemRadio from './components/menuitemradio';
 import MenuPopover from './components/menupopover';
 import MenuSection from './components/menusection';
 import NavMenuItem from './components/navmenuitem';
+import NumberInput from './components/numberinput';
 import OptGroup from './components/optgroup';
 import Option from './components/option';
 import Password from './components/password';
@@ -171,6 +173,7 @@ export {
   AvatarButton,
   Badge,
   Brandvisual,
+  BrandVisualProvider,
   Bullet,
   Button,
   ButtonGroup,
@@ -210,6 +213,7 @@ export {
   MenuPopover,
   MenuSection,
   NavMenuItem,
+  NumberInput,
   OptGroup,
   Option,
   Password,
