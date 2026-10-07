@@ -16,17 +16,10 @@
       ]
     },
     {
-      "destination": "spacing/complete",
-      "cssSelector": ".mds-spacing",
+      "destination": "dimensions/complete",
+      "cssSelector": ".mds-dimension",
       "targets": [
-        "core/spacing.json"
-      ]
-    },
-    {
-      "destination": "size/complete",
-      "cssSelector": ".mds-size",
-      "targets": [
-        "core/size.json"
+        "core/dimension.json"
       ]
     },
     {
@@ -70,10 +63,7 @@
       "targets": [
         "core/value.json",
         "core/color-brand.json",
-        "core/spacing.json",
-        "core/border.json",
-        "core/radius.json",
-        "core/size.json",
+        "core/dimension.json",
         "theme/stable/dark.json",
         "theme/stable/spacing.json",
         "theme/stable/border.json",
@@ -87,10 +77,7 @@
       "targets": [
         "core/value.json",
         "core/color-brand.json",
-        "core/spacing.json",
-        "core/border.json",
-        "core/radius.json",
-        "core/size.json",
+        "core/dimension.json",
         "theme/stable/light.json",
         "theme/stable/spacing.json",
         "theme/stable/border.json",
@@ -104,10 +91,7 @@
       "targets": [
         "core/value.json",
         "core/color-brand.json",
-        "core/spacing.json",
-        "core/border.json",
-        "core/radius.json",
-        "core/size.json",
+        "core/dimension.json",
         "theme/stable/dark.json",
         "theme/stable/spacing.json",
         "theme/stable/border.json",
@@ -126,10 +110,7 @@
       "targets": [
         "core/value.json",
         "core/color-brand.json",
-        "core/spacing.json",
-        "core/border.json",
-        "core/radius.json",
-        "core/size.json",
+        "core/dimension.json",
         "theme/stable/light.json",
         "theme/stable/spacing.json",
         "theme/stable/border.json",
@@ -148,10 +129,7 @@
       "targets": [
         "core/value.json",
         "core/color-brand.json",
-        "core/spacing.json",
-        "core/border.json",
-        "core/radius.json",
-        "core/size.json",
+        "core/dimension.json",
         "theme/stable/highcontrast/hc_common.json",
         "theme/stable/highcontrast/hc_dark.json",
         "theme/stable/spacing.json",
@@ -166,10 +144,7 @@
       "targets": [
         "core/value.json",
         "core/color-brand.json",
-        "core/spacing.json",
-        "core/border.json",
-        "core/radius.json",
-        "core/size.json",
+        "core/dimension.json",
         "theme/stable/highcontrast/hc_common.json",
         "theme/stable/highcontrast/hc_light.json",
         "theme/stable/spacing.json",
