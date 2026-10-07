@@ -324,7 +324,7 @@ test('mdc-aiassistantprompt', async ({ componentsPage }) => {
           event.preventDefault();
         });
         item.addEventListener('click', () => {
-          (host as HTMLElement & { value: string }).value = item.getAttribute('label') ?? '';
+          host.setAttribute('value', item.getAttribute('label') ?? '');
           popover.removeAttribute('visible');
         });
       });
