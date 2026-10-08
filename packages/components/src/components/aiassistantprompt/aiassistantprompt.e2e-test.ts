@@ -208,35 +208,6 @@ test('mdc-aiassistantprompt', async ({ componentsPage }) => {
     await expect(menu.locator('mdc-menuitem')).toHaveCount(4);
   });
 
-  await test.step('should toggle the microphone icon when the mic button is clicked', async () => {
-    const withMic = await setup({
-      componentsPage,
-      footerRight: `
-        <mdc-button
-          slot="footer-right"
-          variant="tertiary"
-          size="32"
-          prefix-icon="microphone-on-bold"
-          aria-label="Stop voice input"
-        ></mdc-button>
-      `,
-    });
-    await withMic.aiAssistantPrompt.evaluate(host => {
-      const mic = host.querySelector('mdc-button[slot="footer-right"]');
-      mic?.addEventListener('click', () => {
-        const isOn = mic.getAttribute('prefix-icon') === 'microphone-on-bold';
-        mic.setAttribute('prefix-icon', isOn ? 'microphone-muted-bold' : 'microphone-on-bold');
-        mic.setAttribute('aria-label', isOn ? 'Start voice input' : 'Stop voice input');
-      });
-    });
-    const mic = withMic.aiAssistantPrompt.locator('[slot="footer-right"]');
-    await expect(mic).toHaveAttribute('prefix-icon', 'microphone-on-bold');
-    await mic.click();
-    await expect(mic).toHaveAttribute('prefix-icon', 'microphone-muted-bold');
-    await mic.click();
-    await expect(mic).toHaveAttribute('prefix-icon', 'microphone-on-bold');
-  });
-
   await test.step('should open a same-width flyout above the prompt when the textarea is focused', async () => {
     const promptId = 'aiassistantprompt-example';
     const suggestionsId = 'aiassistantprompt-suggestions';

@@ -21,20 +21,10 @@ const ADJUST_TRIGGER_ID = 'aiassistantprompt-adjust-trigger';
 const SOURCES_TRIGGER_ID = 'aiassistantprompt-sources-trigger';
 const PROMPT_ID = 'aiassistantprompt-example';
 const SUGGESTIONS_ID = 'aiassistantprompt-suggestions';
-const MIC_ON_ICON = 'microphone-on-bold';
-const MIC_OFF_ICON = 'microphone-muted-bold';
 
 const removeChip = (event: Event) => {
   action('remove')(event);
   (event.target as HTMLElement)?.remove();
-};
-
-const toggleMic = (event: Event) => {
-  action('onclick')(event);
-  const button = event.currentTarget as HTMLElement;
-  const isOn = button.getAttribute('prefix-icon') === MIC_ON_ICON;
-  button.setAttribute('prefix-icon', isOn ? MIC_OFF_ICON : MIC_ON_ICON);
-  button.setAttribute('aria-label', isOn ? 'Start voice input' : 'Stop voice input');
 };
 
 const setSuggestionsWidth = (prompt: HTMLElement) => {
@@ -117,9 +107,8 @@ const headerAndFooter = html`
     slot="footer-right"
     variant="tertiary"
     size="32"
-    prefix-icon="${MIC_ON_ICON}"
-    aria-label="Stop voice input"
-    @click="${toggleMic}"
+    prefix-icon="microphone-on-bold"
+    aria-label="Start voice input"
   ></mdc-button>
   <mdc-button
     slot="footer-right"
