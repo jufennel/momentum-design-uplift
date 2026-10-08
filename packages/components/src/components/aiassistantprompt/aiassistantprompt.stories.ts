@@ -169,6 +169,7 @@ const suggestionsMenu = html`
     disable-flip
     hide-on-escape
     aria-label="Prompt suggestions"
+    style="border-radius: 1rem;"
   >
     <mdc-list>
       <mdc-listitem

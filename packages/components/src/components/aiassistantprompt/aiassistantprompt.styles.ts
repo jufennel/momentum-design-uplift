@@ -11,7 +11,7 @@ const styles = css`
     --mdc-aiassistantprompt-text-line-height: var(--mds-font-lineheight-body-midsize);
     --mdc-aiassistantprompt-container-padding: 0.75rem;
     --mdc-aiassistantprompt-region-gap: 0.5rem;
-    --mdc-aiassistantprompt-border-radius: 0.5rem;
+    --mdc-aiassistantprompt-border-radius: 1rem;
     --mdc-focus-ring-inner-color: var(--mds-color-theme-focus-default-0);
     --mdc-focus-ring-middle-color: var(--mds-color-theme-focus-default-1);
     --mdc-focus-ring-outer-color: var(--mds-color-theme-focus-default-2);
