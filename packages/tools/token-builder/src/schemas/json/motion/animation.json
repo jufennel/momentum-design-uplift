@@ -25,9 +25,7 @@
         "color",
         "filter",
         "font-size",
-        "font-weight",
         "gap",
-        "grid-template-rows",
         "height",
         "letter-spacing",
         "max-height",
@@ -37,7 +35,9 @@
         "transform",
         "visibility",
         "width",
-        "display"
+        "font-weight",
+        "display",
+        "grid-template-rows"
       ]
     },
     "AnimationFile": {

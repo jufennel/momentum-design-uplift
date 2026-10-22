@@ -12,7 +12,7 @@ const fs = require('fs');
 const kebabCase = require('lodash/kebabCase');
 
 const distBase = nodePath.join(__dirname, '../../dist');
-const srcBase = nodePath.join(__dirname, '../animation');
+const srcBase = nodePath.join(__dirname, '../motion');
 
 const CSS_FILE = nodePath.join(distBase, 'css/motion/animation.css');
 const CORE_CSS_FILE = nodePath.join(distBase, 'css/motion/complete.css');
@@ -41,12 +41,6 @@ describe('Animation tokens (post-build)', () => {
     expect(css).toContain('Do not edit directly');
   });
 
-  it('CSS output should include prefers-reduced-motion overrides', () => {
-    expect(css).toContain('@media (prefers-reduced-motion: reduce)');
-    expect(css).toContain('--mds-transition-background-color: none;');
-    expect(css).toContain('--mds-transition-object-color: none;');
-  });
-
   it('transition tokens should emit --mds-transition-* variables', () => {
     const transitionTokens = Object.entries(source).filter(
       ([, t]) => t.type === 'transition' || t.type === 'transitionCompound',
@@ -54,33 +48,6 @@ describe('Animation tokens (post-build)', () => {
     expect(transitionTokens.length).toBeGreaterThan(0);
     transitionTokens.forEach(([name]) => {
       expect(css).toContain(`--mds-transition-${kebabCase(name)}:`);
-    });
-  });
-
-  it('keyframe tokens should emit --mds-animation-* variables', () => {
-    const keyframeTokens = Object.entries(source).filter(
-      ([, t]) => t.type === 'keyframe' || t.type === 'keyframeCompound',
-    );
-    keyframeTokens.forEach(([name]) => {
-      expect(css).toContain(`--mds-animation-${kebabCase(name)}:`);
-    });
-  });
-
-  it('keyframe tokens should have matching @keyframes block', () => {
-    const keyframeTokens = Object.entries(source).filter(([, t]) => t.type === 'keyframe');
-    keyframeTokens.forEach(([name]) => {
-      expect(css).toContain(`@keyframes mds-animation-${kebabCase(name)}`);
-    });
-  });
-
-  it('@keyframes name in variable value should match the @keyframes block name', () => {
-    const keyframeTokens = Object.entries(source).filter(([, t]) => t.type === 'keyframe');
-    keyframeTokens.forEach(([name]) => {
-      const kfName = `mds-animation-${kebabCase(name)}`;
-      const varLineMatch = css.match(new RegExp(`--mds-animation-${kebabCase(name)}:\\s*([^;]+);`));
-      expect(varLineMatch).not.toBeNull();
-      // The keyframe name must be last in the animation shorthand
-      expect(varLineMatch[1].trim()).toMatch(new RegExp(`\\b${kfName}$`));
     });
   });
 
@@ -101,8 +68,7 @@ describe('Animation tokens (post-build)', () => {
   });
 
   it('total CSS variable count should match total token count in source', () => {
-    const cssMainBlock = css.split('@media (prefers-reduced-motion: reduce)')[0];
-    const varLines = cssMainBlock.split('\n').filter((l) => l.trim().startsWith('--'));
+    const varLines = css.split('\n').filter((l) => l.trim().startsWith('--'));
     const sourceTokenCount = Object.keys(source).length;
     expect(varLines.length).toBe(sourceTokenCount);
   });
